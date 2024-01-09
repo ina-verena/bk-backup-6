@@ -1,0 +1,13 @@
+import java.util.UUID;
+
+public class Find_Drives {
+    // - Laufwerke[]
+
+    /**
+     * Füllt das Array mit gefundenen Laufwerken
+     * @param uuid
+     */
+    public void startSearch(UUID uuid){
+
+    }
+}
