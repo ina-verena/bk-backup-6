@@ -1,5 +1,9 @@
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.util.List;
 
 import javax.swing.filechooser.FileSystemView;
@@ -36,6 +40,17 @@ public class App {
                 System.out.println("\tFree space: " + app.getFreeSpace(aDrive) + "Gb");
                 System.out.println();
             }
+        }
+
+
+        File sourceFile = new File("path/to/source/file");
+        File destFile = new File("path/to/destination/file");
+
+        try (FileChannel sourceChannel = new FileInputStream(sourceFile).getChannel();
+             FileChannel destChannel = new FileOutputStream(destFile).getChannel()) {
+            destChannel.transferFrom(sourceChannel, 0, sourceChannel.size());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
