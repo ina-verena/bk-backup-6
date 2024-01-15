@@ -7,7 +7,7 @@ public class Get_UUID {
      * @return
      */
     public UUID getUuid(){
-        return // UUID
+        return null;
     }
 
 }
