@@ -1,4 +1,4 @@
-package java.backupsystem.uuid.handler;
+package backup.system.uuid.handler;
 
 import java.util.UUID;
 
