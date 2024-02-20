@@ -70,8 +70,7 @@ public class Make_Backup implements FileVisitor<Path> {
         try {
             Files.createDirectories(Paths.get("C:/.Backup/" + uuid));
             Files.createDirectories(Paths.get("C:/.Backup/" + uuid + "/backup"));
-//            configData.setLastModified(Long.parseLong(LocalDateTime.now().toString()));
-            configData.createConfigData(Paths.get("C:/.Backup/" + uuid + "/config"), configData);
+            Files.copy(Paths.get("C:/Development/config"), Paths.get("C:/.Backup/" + uuid + "/config"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
