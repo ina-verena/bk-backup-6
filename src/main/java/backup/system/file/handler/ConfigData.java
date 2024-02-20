@@ -1,7 +1,15 @@
 package backup.system.file.handler;
 
-import java.util.UUID;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+/**
+ *
+ */
 public class ConfigData {
     private String uuid;
     private long lastModified;
@@ -21,4 +29,48 @@ public class ConfigData {
     public void setLastModified(long lastModified) {
         this.lastModified = lastModified;
     }
+
+    public void createConfigData(String path, ConfigData configData){
+
+        try {
+            XMLEncoder xmlEncoder = new XMLEncoder(
+                    new BufferedOutputStream(
+                            new FileOutputStream(path)));
+            xmlEncoder.writeObject(configData);
+            xmlEncoder.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getUUIDAsString(String path){
+       return loadFile(path).uuid.toString();
+    }
+
+    public ConfigData loadFile(String path){
+        ConfigData configData = null;
+        try{
+            XMLDecoder xmlDecoder = new XMLDecoder(
+                    new BufferedInputStream(
+                            new FileInputStream(path)));
+            configData = (ConfigData) xmlDecoder.readObject();
+            xmlDecoder.close();
+
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }
+        return configData;
+    }
+
+
+
+    public void hideFile(String filePath){
+        Path path = Paths.get(filePath);
+        try {
+            Files.setAttribute(path, "dos:hidden", true);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

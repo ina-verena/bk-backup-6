@@ -6,7 +6,7 @@ import java.nio.file.FileVisitor;
 import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 
-public class Make_Backup implements FileVisitor<Path> {
+public class Backup implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult preVisitDirectory(
