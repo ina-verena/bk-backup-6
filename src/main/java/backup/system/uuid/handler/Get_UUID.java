@@ -1,15 +1,28 @@
 package backup.system.uuid.handler;
 
-import java.util.UUID;
+import backup.system.file.handler.ConfigData;
+
+import java.nio.file.Path;
 
 public class Get_UUID {
-    
+
     /**
-     * Sucht ob es eine UUID gibt
+     *
+     * @param UUID
      * @return
      */
-    public UUID getUuid(){
-        return null;
+    public boolean compareUUID(String UUID){
+        ConfigData configData = new ConfigData();
+        if(configData.getUuid().equals(UUID)){
+            return true;
+        }
+        return false;
     }
+
+    public String getUUIDAsString(Path path){
+        ConfigData configData = new ConfigData();
+        return configData.loadFile(path).getUuid();
+    }
+
 
 }
