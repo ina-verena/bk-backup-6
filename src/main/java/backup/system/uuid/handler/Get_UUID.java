@@ -2,7 +2,7 @@ package backup.system.uuid.handler;
 
 import backup.system.file.handler.ConfigData;
 
-import java.util.UUID;
+import java.nio.file.Path;
 
 public class Get_UUID {
 
@@ -19,10 +19,10 @@ public class Get_UUID {
         return false;
     }
 
-    /**
-     * Füllt das Array mit gefundenen Laufwerken
-     */
-    public void assign(){
-
+    public String getUUIDAsString(Path path){
+        ConfigData configData = new ConfigData();
+        return configData.loadFile(path).getUuid();
     }
+
+
 }

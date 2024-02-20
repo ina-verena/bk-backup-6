@@ -1,20 +1,19 @@
 package backup.system.drive.handler;
 
 import java.io.File;
-import java.util.UUID;
 
-public class Drive {
+public class Find_Drive {
     /**
      * This method lists all internal and external drives and puts them into an array
      * @return array of File's
      */
-    public File[] listAllDrives() {
+    public File[] getDriveList() {
         File[] drives = File.listRoots();
         return drives;
     }
 
     public File[] getValidDriveList(){
-        File[] drives = listAllDrives();
+        File[] drives = getDriveList();
 //        for (:) {
 //
 //        }

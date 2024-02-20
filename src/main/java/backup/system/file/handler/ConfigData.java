@@ -6,6 +6,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
+import java.util.stream.Stream;
 
 /**
  *
@@ -30,12 +32,11 @@ public class ConfigData {
         this.lastModified = lastModified;
     }
 
-    public void createConfigData(String path, ConfigData configData){
-
+    public void createConfigData(Path path, ConfigData configData){
         try {
             XMLEncoder xmlEncoder = new XMLEncoder(
                     new BufferedOutputStream(
-                            new FileOutputStream(path)));
+                            new FileOutputStream(path.toString())));
             xmlEncoder.writeObject(configData);
             xmlEncoder.close();
         } catch (IOException e) {
@@ -43,16 +44,14 @@ public class ConfigData {
         }
     }
 
-    public String getUUIDAsString(String path){
-       return loadFile(path).uuid.toString();
-    }
 
-    public ConfigData loadFile(String path){
+
+    public ConfigData loadFile(Path path){
         ConfigData configData = null;
         try{
             XMLDecoder xmlDecoder = new XMLDecoder(
                     new BufferedInputStream(
-                            new FileInputStream(path)));
+                            new FileInputStream(path.toString())));
             configData = (ConfigData) xmlDecoder.readObject();
             xmlDecoder.close();
 
@@ -63,14 +62,27 @@ public class ConfigData {
     }
 
 
-
-    public void hideFile(String filePath){
-        Path path = Paths.get(filePath);
+    public boolean searchConfigFile(Path path){
         try {
-            Files.setAttribute(path, "dos:hidden", true);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            ConfigData configData = loadFile(path);
+            if (configData == null) {
+                return false;
+            }
+            return true;
+        }catch (Exception e){
+            throw e;
         }
     }
 
+    private void createDir(){}
+
+    public void initConfigData(Path path){
+        if(searchConfigFile(path) == false) {
+            ConfigData configData = new ConfigData();
+            configData.setUuid(UUID.randomUUID().toString());
+            createConfigData(path, configData);
+        }
+    }
+
+    public void startSearchDrive(){}
 }
