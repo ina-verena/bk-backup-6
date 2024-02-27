@@ -2,18 +2,14 @@ package backup.system.uuid.handler;
 
 import backup.system.file.handler.ConfigData;
 
+import java.io.File;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Get_UUID {
 
-    /**
-     *
-     * @param UUID
-     * @return
-     */
-    public boolean compareUUID(String UUID){
-        ConfigData configData = new ConfigData();
-        if(configData.getUuid().equals(UUID)){
+    public boolean compareUUID(String UUIDLocal, String UUIDDrive){
+        if(UUIDLocal.equals(UUIDDrive)){
             return true;
         }
         return false;
