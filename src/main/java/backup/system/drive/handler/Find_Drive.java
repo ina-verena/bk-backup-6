@@ -1,6 +1,10 @@
 package backup.system.drive.handler;
 
+import backup.system.file.handler.ConfigData;
+
+import javax.swing.filechooser.FileSystemView;
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 /**
@@ -10,11 +14,23 @@ public class Find_Drive {
     /**
      * Diese Methode listet alle aktuell angeschlossenen Laufwerk auf
      * und fügt den Buchstaben der Laufwerke als File in ein File Array
+     *
      * @return File Array
      */
     public File[] getDriveList() {
         File[] drives = File.listRoots();
+//        for (int i = 0; i < drives.length; i++) {
+//            if (drives[i].toString().equals("C:\\") || drives[i].toString().equals("U:\\")){
+//                drives[i] = null;
+//            }
+//        }
         return drives;
+    }
+
+    public void visualizeDriveList(File[] drives){
+        for (int i = 0; i < drives.length; i++){
+            System.out.println(drives[i]);
+        }
     }
 
     /**
@@ -25,10 +41,11 @@ public class Find_Drive {
      */
     public File chooseDrive(File[] drives){
         Scanner scanner = new Scanner(System.in);
+        FileSystemView fsv = FileSystemView.getFileSystemView();
         int counter = 1;
         System.out.println("Choose drive");
-        for (int i = 0; i < drives.length; i++){
-            System.out.println(counter + ": " + drives[i]);
+        for (File drive : drives) {
+            System.out.println(counter + ": " + drive);
             counter++;
         }
 
@@ -41,12 +58,15 @@ public class Find_Drive {
      * kontrolliert jedes Laufwerk nach einer Config Datei mit einer UUID
      * @return File Array
      */
-    public File[] getValidDriveList(){
+    public File[] getValidDriveList(ConfigData configData){
         File[] drives = getDriveList();
-//        for (:) {
-//
-//        }
-        return null;
+        File[] validDriveList = new File[drives.length];
+        for (int i = 0; i < drives.length; i++) {
+            if (!configData.doesConfigFileExist(Paths.get(drives[i] + "config"))){
+                validDriveList[i] = drives[i];
+            }
+        }
+        return validDriveList;
     }
 
     /**

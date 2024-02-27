@@ -10,6 +10,8 @@ import java.util.List;
 
 public class Make_Backup implements FileVisitor<Path> {
 
+
+    //TODO Files.walkFileTree()
     @Override
     public FileVisitResult preVisitDirectory(
       Path dir, BasicFileAttributes attrs) {
@@ -75,9 +77,11 @@ public class Make_Backup implements FileVisitor<Path> {
         }
     }
 
+
     /**
      * Diese Methode erzeugt den Backup-über-Ordner auf dem User Laufwerk
      */
+    //TODO: Wechsel Buchstabe C:/ zu U:/
     public void createBackupDir(){
 
         try {
@@ -99,6 +103,7 @@ public class Make_Backup implements FileVisitor<Path> {
      * @param path der Config Datei des externen Laufwerkes
      * @param aDrive Der Buchstabe des Laufwerkes
      */
+    //TODO: Wechsel Buchstabe C:/ zu U:/
     public void createDriveDir(Path path, File aDrive){
         Get_UUID get_uuid = new Get_UUID();
         String uuid = get_uuid.getUUIDAsString(path);

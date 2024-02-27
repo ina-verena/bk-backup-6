@@ -24,7 +24,7 @@ public class ConfigData {
     private long lastModified;
 
     /**
-     * Gebe die uuid zurück
+     * Gibt die uuid zurück
      * @return String uuid
      */
     public String getUuid() {
@@ -32,7 +32,7 @@ public class ConfigData {
     }
 
     /**
-     * Lege die uuid fest
+     * Legt die uuid fest
      * @param uuid zum festlegen
      */
     public void setUuid(String uuid) {
@@ -40,7 +40,7 @@ public class ConfigData {
     }
 
     /**
-     * Gebe den lastModified Wert zurück
+     * Gibt den lastModified Wert zurück
      * @return long lastModified
      */
     public long getLastModified() {
@@ -75,7 +75,7 @@ public class ConfigData {
 
 
     /**
-     * Diese Methode läd ein Config Datei und konvertiert diese in ein ConfigData Objekt
+     * Diese Methode läd eine Config Datei und konvertiert diese in ein ConfigData Objekt
      * @param path der Config Datei
      * @return ConfigData Objekt
      */
@@ -95,7 +95,7 @@ public class ConfigData {
     }
 
     /**
-     * Diese Methode kontrolliert, ob ein Config Datei existiert
+     * Diese Methode kontrolliert, ob eine Config Datei existiert
      * @param path der Config Datei
      * @return boolean
      */
@@ -111,8 +111,6 @@ public class ConfigData {
         }
     }
 
-    private void createDir(){}
-
     /**
      * Diese Methode initialisiert eine Config Datei und speichert diese unter dem Pfad ab,
      * falls noch keine Config Datei existiert
@@ -126,9 +124,4 @@ public class ConfigData {
         }
     }
 
-    /**
-     * Ein Thread der jede ... Sekunden kontrolliert,
-     * ob ein Laufwerk angeschlossen oder entfernt wurde
-     */
-    public void startSearchDrive(){}
 }
