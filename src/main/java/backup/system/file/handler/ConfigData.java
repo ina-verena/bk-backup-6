@@ -3,35 +3,64 @@ package backup.system.file.handler;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 /**
- *
+ * Dieses Objekt stellt den Inhalt der Config Datei dar.
+ * Die wichtigen Informationen diesen Objekt's sind die Attribute uuid und lastModified.
+ * Diese initialisieren das Laufwerk und geben mit dem lastModified Änderungen des Dateisystems an.
+ * Diese Änderungen werden für den vergleich bei dem Backup benötigt
  */
 public class ConfigData {
+    /**
+     * Eine einzigartige Id, um das Laufwerk eindeutig erkennbar zu machen
+     */
     private String uuid;
+    /**
+     * Ein long Wert in der ein Datum gespeichert ist, um anzugeben,
+     * wann ein Backup zuletzt gemacht wurden
+     */
     private long lastModified;
 
+    /**
+     * Gebe die uuid zurück
+     * @return String uuid
+     */
     public String getUuid() {
         return uuid;
     }
 
+    /**
+     * Lege die uuid fest
+     * @param uuid zum festlegen
+     */
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
 
+    /**
+     * Gebe den lastModified Wert zurück
+     * @return long lastModified
+     */
     public long getLastModified() {
         return lastModified;
     }
 
+    /**
+     * Lege den lastModified Wert fest
+     * @param lastModified Wert zum festlegen
+     */
     public void setLastModified(long lastModified) {
         this.lastModified = lastModified;
     }
 
+    /**
+     * Diese Methode erzeugt eine Config Datei mit dem übergebenen Pfad
+     * In diesem Config File sind alle Inhalte (Attribute sowie Funktionen) der Klasse @ConfigData enthalten
+     * @param path In der das Config File gespeichert wird
+     * @param configData Informationen/Daten welche abgespeichert werden
+     */
     public void createConfigData(Path path, ConfigData configData){
         try {
             XMLEncoder xmlEncoder = new XMLEncoder(
@@ -45,7 +74,11 @@ public class ConfigData {
     }
 
 
-
+    /**
+     * Diese Methode läd ein Config Datei und konvertiert diese in ein ConfigData Objekt
+     * @param path der Config Datei
+     * @return ConfigData Objekt
+     */
     public ConfigData loadFile(Path path){
         ConfigData configData = null;
         try{
@@ -61,8 +94,12 @@ public class ConfigData {
         return configData;
     }
 
-
-    public boolean searchConfigFile(Path path){
+    /**
+     * Diese Methode kontrolliert, ob ein Config Datei existiert
+     * @param path der Config Datei
+     * @return boolean
+     */
+    public boolean doesConfigFileExist(Path path){
         try {
             ConfigData configData = loadFile(path);
             if (configData == null) {
@@ -76,13 +113,22 @@ public class ConfigData {
 
     private void createDir(){}
 
+    /**
+     * Diese Methode initialisiert eine Config Datei und speichert diese unter dem Pfad ab,
+     * falls noch keine Config Datei existiert
+     * @param path der Config Datei
+     */
     public void initConfigData(Path path){
-        if(searchConfigFile(path) == false) {
+        if(doesConfigFileExist(path) == false) {
             ConfigData configData = new ConfigData();
             configData.setUuid(UUID.randomUUID().toString());
             createConfigData(path, configData);
         }
     }
 
+    /**
+     * Ein Thread der jede ... Sekunden kontrolliert,
+     * ob ein Laufwerk angeschlossen oder entfernt wurde
+     */
     public void startSearchDrive(){}
 }
