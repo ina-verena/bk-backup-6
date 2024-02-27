@@ -1,0 +1,7 @@
+.backup
+ - <uuid>
+    - config.txt
+    - backup
+  -<uuid>
+    - config.txt
+    - backup

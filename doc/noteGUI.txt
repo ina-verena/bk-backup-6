@@ -1,0 +1,11 @@
+Was soll das gui können
+
+- Icon/TraiSystemIcon in der Menüleiste
+- Kontext-Menü beim klick auf Icon 
+	- Programm beenden
+	- Info (Name, Beschreibung, Version, ...)
+	- Backup einrichten
+	- Backup starten
+	- Log / Status
+	- Backup wiederherstellen
+	- Ältere Backups 
