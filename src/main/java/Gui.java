@@ -15,6 +15,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import java.awt.Dimension;
+import javax.swing.JTextPane;
+import javax.swing.JList;
+import javax.swing.JRadioButton;
 
 public class Gui extends JFrame {
 
@@ -174,15 +178,30 @@ public class Gui extends JFrame {
      		JPanel drivers = new JPanel();
      		drivers.setBackground(SystemColor.activeCaption);
      		main.add(drivers, "name_drivers");
+     		drivers.setLayout(null);
 
      		JLabel lblNewLabel = new JLabel("Drivers List");
-		for (String drive: find_drive.getDriveListAsString()) {
-			JLabel asdlasd = new JLabel(drive);
-			drivers.add(asdlasd);
-		}
+     		lblNewLabel.setBounds(111, 5, 89, 22);
      		lblNewLabel.setForeground(SystemColor.text);
      		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
      		drivers.add(lblNewLabel);	
+     		
+     		JPanel listcontainer = new JPanel();
+     		listcontainer.setBackground(SystemColor.activeCaption);
+     		listcontainer.setBounds(10, 37, 306, 338);
+     		drivers.add(listcontainer);
+     		listcontainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+     		   		
+     		     		
+    		for (String drive: find_drive.getDriveListAsString()) {
+    			JButton entry = new JButton(drive + "                           ");
+    			entry.setBounds(10, 5, 89, 22);
+         		entry.setFont(new Font("Tahoma", Font.PLAIN, 18));
+         		entry.addActionListener(e -> {
+        			System.out.println(drive);
+        		});
+    			listcontainer.add(entry);
+    		}
      		
 //  Panel welches das Backup einrichten lässt        
         JPanel initial = new JPanel();
