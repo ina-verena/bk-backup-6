@@ -1,3 +1,5 @@
+import backup.system.drive.handler.Find_Drive;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -17,6 +19,8 @@ import javax.swing.border.EmptyBorder;
 public class Gui extends JFrame {
 
 	private JPanel contentPane;
+
+	Find_Drive find_drive = new Find_Drive();
 
 	/**
 	 * Launch the application.

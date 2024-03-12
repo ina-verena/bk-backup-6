@@ -6,6 +6,7 @@ import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
+import java.util.Date;
 import java.util.List;
 
 public class Make_Backup implements FileVisitor<Path> {
@@ -15,51 +16,56 @@ public class Make_Backup implements FileVisitor<Path> {
     // TODO CHANGE C:/ ZU U:/
     @Override
     public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
-//        String[] splitPath = dir.toString().split(":", 2);
-//        Path target = Paths.get("C:" + splitPath[1]);
-//        System.out.println(splitPath[0]);
-//        System.out.println(splitPath[1]);
-//
-//        //Ist die Directory im Ziel vorhanden? nein -> copyDir
-//        if(!Files.exists(target)){
-//            copy(new File(dir.toUri()), new File(target.toUri()));
-//        }
-//        //In Quelle nein und Ziel ja? Im Ziel löschen
-//        if (!Files.exists(dir) && Files.exists(target)){
-//            deleteFile(target);
-//        }
-//
-//        //In Quelle und ziel ja? continue
-//        if (Files.exists(dir) && Files.exists(target)){
-//            return FileVisitResult.CONTINUE;
-//        }
+        String[] splitPath = dir.toString().split(":", 2);
+        Path target = Paths.get("C:" + splitPath[1]);
+        System.out.println(splitPath[0]);
+        System.out.println(splitPath[1]);
+
+        //Ist die Directory im Ziel vorhanden? nein -> copyDir
+        if(!Files.exists(target)){
+            copy(new File(dir.toUri()), new File(target.toUri()));
+        }
+
+        //In Quelle nein und Ziel ja? Im Ziel löschen
+        if (!Files.exists(dir) && Files.exists(target)){
+            deleteFile(target);
+        }
+
+        //In Quelle und ziel ja? continue
+        if (Files.exists(dir) && Files.exists(target)){
+            return FileVisitResult.CONTINUE;
+        }
         return FileVisitResult.CONTINUE;
     }
 
+    //TODO CHANGE C:/ ZU U:/
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-//        String[] splitPath = file.toString().split(":", 2);
-////        Path target = Paths.get("C:" + splitPath[1]);
-////        File targetFile = new File(target.toUri());
-////        //Ist File im Ziel vorhanden? nein -> copy
-////        if(!Files.exists(target)){
-////            copy(new File(file.toUri()), new File(target.toUri()));
-////        }
-////        //In Quelle und ziel ja? vergleiche Attribut lastModified. lastModified ungleich? -> copy sonst continue
-////        if (Files.exists(file) && Files.exists(target)){
-////            FileTime fileTime = attrs.lastModifiedTime();
-////        }
-////        //In Quelle nein und Ziel ja? Im Ziel löschen
-////        if (!Files.exists(file) && Files.exists(target)){
-////            deleteFile(target);
-////        }
-        System.out.println(attrs.lastModifiedTime());
-        //Continue
-//        String fileName = file.getFileName().toString();
-//        if (FILE_NAME.equals(fileName)) {
-//            System.out.println("File found: " + file);
-//            return FileVisitResult.TERMINATE;
-//        }
+        String[] splitPath = file.toString().split(":", 2);
+        Path target = Paths.get("C:" + splitPath[1]);
+        File targetFile = new File(target.toUri());
+        File sourceFile = new File(file.toUri());
+
+        //Ist File im Ziel vorhanden? nein -> copy
+        if(!Files.exists(target)){
+            copy(sourceFile, targetFile);
+        }
+
+        //In Quelle und ziel ja? vergleiche Attribut lastModified. lastModified ungleich? -> copy sonst continue
+        if (Files.exists(file) && Files.exists(target)){
+            FileTime fileTime = attrs.lastModifiedTime();
+            if (new Date(fileTime.toMillis()).equals(new Date(targetFile.lastModified()))){
+                return FileVisitResult.CONTINUE;
+            } else {
+                copy(sourceFile, targetFile);
+            }
+        }
+
+        //In Quelle nein und Ziel ja? Im Ziel löschen
+        if (!Files.exists(file) && Files.exists(target)){
+            deleteFile(target);
+            return FileVisitResult.CONTINUE;
+        }
         return FileVisitResult.CONTINUE;
     }
 
@@ -71,11 +77,11 @@ public class Make_Backup implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-//        boolean finishedSearch = Files.isSameFile(dir, START_DIR);
-//        if (finishedSearch) {
-//            System.out.println("File:" + FILE_NAME + " not found");
-//            return FileVisitResult.TERMINATE;
-//        }
+        boolean finishedSearch = Files.isSameFile(dir, START_DIR);
+        if (finishedSearch) {
+            System.out.println("File:" + FILE_NAME + " not found");
+            return FileVisitResult.TERMINATE;
+        }
         return FileVisitResult.CONTINUE;
     }
 
@@ -119,7 +125,6 @@ public class Make_Backup implements FileVisitor<Path> {
             throw new RuntimeException(e);
         }
     }
-
 
     /**
      * Diese Methode erzeugt den Backup-über-Ordner auf dem User Laufwerk
