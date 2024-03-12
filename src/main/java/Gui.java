@@ -21,6 +21,7 @@ import java.awt.Dimension;
 import javax.swing.JTextPane;
 import javax.swing.JList;
 import javax.swing.JRadioButton;
+import javax.swing.JProgressBar;
 
 public class Gui extends JFrame {
 
@@ -202,9 +203,7 @@ public class Gui extends JFrame {
          		entry.setFont(new Font("Tahoma", Font.PLAIN, 18));
          		entry.addActionListener(n -> {
         			configData.initConfigData(Paths.get(drive + "config"));
-        			
-        			
-        			//CardLayout cardLayout = (CardLayout) main.getLayout();
+
         			cardLayout.show(main, "name_initial");
         		});
     			listcontainer.add(entry);
@@ -214,31 +213,69 @@ public class Gui extends JFrame {
         JPanel initial = new JPanel();
         initial.setBackground(SystemColor.activeCaption);
         main.add(initial, "name_initial");
+        initial.setLayout(null);
         
         JLabel lblBackupEinrichten = new JLabel("Backup einrichten");
+        lblBackupEinrichten.setBounds(91, 10, 145, 22);
         lblBackupEinrichten.setForeground(Color.WHITE);
         lblBackupEinrichten.setFont(new Font("Tahoma", Font.PLAIN, 18));
         initial.add(lblBackupEinrichten);
+        
+        JLabel lblUuidWirdErstellt = new JLabel("UUID wird erstellt ...");
+        lblUuidWirdErstellt.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblUuidWirdErstellt.setBounds(10, 70, 316, 40);
+        lblUuidWirdErstellt.setForeground(Color.WHITE);
+        lblUuidWirdErstellt.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        initial.add(lblUuidWirdErstellt);
+        
+        JLabel lblOrdnerWerdenAngelegt = new JLabel("Ordner werden angelegt ...");
+        lblOrdnerWerdenAngelegt.setForeground(Color.WHITE);
+        lblOrdnerWerdenAngelegt.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        lblOrdnerWerdenAngelegt.setAlignmentX(0.5f);
+        lblOrdnerWerdenAngelegt.setBounds(10, 120, 316, 40);
+        initial.add(lblOrdnerWerdenAngelegt);
+        
+        JLabel lblBackupWirdGestartet = new JLabel("Backup wird gestartet ...");
+        lblBackupWirdGestartet.setForeground(Color.WHITE);
+        lblBackupWirdGestartet.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        lblBackupWirdGestartet.setAlignmentX(0.5f);
+        lblBackupWirdGestartet.setBounds(10, 174, 316, 40);
+        initial.add(lblBackupWirdGestartet);
         
 // Panel welches angezeigt wird, wenn das Backup läuft        
         JPanel running = new JPanel();
         running.setBackground(SystemColor.activeCaption);
         main.add(running, "name_running");
+        running.setLayout(null);
         
         JLabel lblBackupLuft = new JLabel("Backup läuft");
+        lblBackupLuft.setBounds(112, 5, 101, 22);
         lblBackupLuft.setForeground(Color.WHITE);
         lblBackupLuft.setFont(new Font("Tahoma", Font.PLAIN, 18));
         running.add(lblBackupLuft);
+        
+        JProgressBar progressBar = new JProgressBar();
+        progressBar.setBounds(24, 275, 279, 28);
+        running.add(progressBar);
+        
+        JLabel lblNewLabel_1 = new JLabel("0%");
+        lblNewLabel_1.setForeground(SystemColor.text);
+        lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
+        lblNewLabel_1.setBounds(150, 311, 74, 46);
+        running.add(lblNewLabel_1);
         
 // Panel für die Bestätigung das das Backup erfolgreich war        
         JPanel finish = new JPanel();
         finish.setBackground(SystemColor.activeCaption);
         main.add(finish, "name_finish");
+        finish.setLayout(null);
         
-        JLabel lblNewLabel_1 = new JLabel("Backup erstellt");
-        lblNewLabel_1.setForeground(Color.WHITE);
-        lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        finish.add(lblNewLabel_1);
+        JLabel lblBackupAbgeschlossen = new JLabel("Backup abgeschlossen");
+        lblBackupAbgeschlossen.setBounds(43, 142, 248, 59);
+        lblBackupAbgeschlossen.setForeground(Color.WHITE);
+        lblBackupAbgeschlossen.setFont(new Font("Tahoma", Font.PLAIN, 24));
+        lblBackupAbgeschlossen.setAlignmentX(0.5f);
+        finish.add(lblBackupAbgeschlossen);
         
 // Panel für die Log Meldungen 
         JPanel log = new JPanel();
