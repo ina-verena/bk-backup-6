@@ -1,4 +1,5 @@
 import backup.system.drive.handler.Find_Drive;
+import backup.system.file.handler.ConfigData;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -8,6 +9,7 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.nio.file.Paths;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,6 +27,7 @@ public class Gui extends JFrame {
 	private JPanel contentPane;
 
 	Find_Drive find_drive = new Find_Drive();
+	ConfigData configData = new ConfigData();
 
 	/**
 	 * Launch the application.
@@ -197,8 +200,8 @@ public class Gui extends JFrame {
     			JButton entry = new JButton(drive + "                           ");
     			entry.setBounds(10, 5, 89, 22);
          		entry.setFont(new Font("Tahoma", Font.PLAIN, 18));
-         		entry.addActionListener(e -> {
-        			System.out.println(drive);
+         		entry.addActionListener(n -> {
+        			configData.initConfigData(Paths.get(drive + "config"));
         		});
     			listcontainer.add(entry);
     		}
