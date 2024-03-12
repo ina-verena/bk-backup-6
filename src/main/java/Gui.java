@@ -195,13 +195,17 @@ public class Gui extends JFrame {
      		drivers.add(listcontainer);
      		listcontainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
      		   		
-     		     		
     		for (String drive: find_drive.getDriveListAsString()) {
+    			
     			JButton entry = new JButton(drive + "                           ");
     			entry.setBounds(10, 5, 89, 22);
          		entry.setFont(new Font("Tahoma", Font.PLAIN, 18));
          		entry.addActionListener(n -> {
         			configData.initConfigData(Paths.get(drive + "config"));
+        			
+        			
+        			//CardLayout cardLayout = (CardLayout) main.getLayout();
+        			cardLayout.show(main, "name_initial");
         		});
     			listcontainer.add(entry);
     		}
