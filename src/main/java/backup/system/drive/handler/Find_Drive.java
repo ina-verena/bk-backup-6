@@ -30,17 +30,24 @@ public class Find_Drive {
         return drives;
     }
 
-    public List<String> getDriveListAsString(){
+    public List<String> getDriveListAsString() {
         File[] drives = File.listRoots();
         List<String> stringDrives = new ArrayList<>();
 
         for (File drive : drives) {
             stringDrives.add(drive.toString());
         }
+
+//        for (int i = 0; i < stringDrives.size(); i++) {
+//            if (stringDrives.get(i).equals("C:\\") || stringDrives.get(i).equals("U:\\")) {
+//                 stringDrives.remove(i);
+//            }
+//        }
         return stringDrives;
     }
-    public void visualizeDriveList(File[] drives){
-        for (int i = 0; i < drives.length; i++){
+
+    public void visualizeDriveList(File[] drives) {
+        for (int i = 0; i < drives.length; i++) {
             System.out.println(drives[i]);
         }
     }
@@ -48,10 +55,11 @@ public class Find_Drive {
     /**
      * Diese Methode interagiert mit dem User,
      * welcher sich per Auflistung für ein Laufwerk entscheidet
+     *
      * @param drives File Array
      * @return File - Laufwerkbuchstabe
      */
-    public File chooseDrive(File[] drives){
+    public File chooseDrive(File[] drives) {
         Scanner scanner = new Scanner(System.in);
         FileSystemView fsv = FileSystemView.getFileSystemView();
         int counter = 1;
@@ -61,20 +69,21 @@ public class Find_Drive {
             counter++;
         }
 
-        return drives[scanner.nextInt()-1];
+        return drives[scanner.nextInt() - 1];
 
     }
 
     /**
      * Diese Methode interriert über das Array der Laufwerke und
      * kontrolliert jedes Laufwerk nach einer Config Datei mit einer UUID
+     *
      * @return File Array
      */
-    public File[] getValidDriveList(ConfigData configData){
+    public File[] getValidDriveList(ConfigData configData) {
         File[] drives = getDriveList();
         File[] validDriveList = new File[drives.length];
         for (int i = 0; i < drives.length; i++) {
-            if (!configData.doesConfigFileExist(Paths.get(drives[i] + "config"))){
+            if (!configData.doesConfigFileExist(Paths.get(drives[i] + "config"))) {
                 validDriveList[i] = drives[i];
             }
         }
@@ -84,6 +93,7 @@ public class Find_Drive {
     /**
      * Diese Methode gibt den benutzbaren Speicherplatz
      * eines Laufwerkes in Bytes als long an
+     *
      * @param aDrive kontrolliertes Laufwerk
      * @return long Wert
      */
@@ -95,6 +105,7 @@ public class Find_Drive {
     /**
      * Diese Methode gibt den gesamten Speicherplatz
      * eines Laufwerkes in Bytes als long an
+     *
      * @param aDrive kontrolliertes Laufwerk
      * @return long Wert
      */
