@@ -1,5 +1,6 @@
 package backup.system.backup.prozess;
 
+import backup.system.drive.handler.Find_Drive;
 import backup.system.uuid.handler.Get_UUID;
 
 import java.io.*;
@@ -8,33 +9,33 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Make_Backup implements FileVisitor<Path> {
-    private String FILE_NAME = "config";
-    private Path START_DIR = Paths.get("C:/Development");
 
     // TODO CHANGE C:/ ZU U:/
     @Override
     public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
         String[] splitPath = dir.toString().split(":", 2);
         Path target = Paths.get("C:" + splitPath[1]);
-        System.out.println(splitPath[0]);
-        System.out.println(splitPath[1]);
 
         //Ist die Directory im Ziel vorhanden? nein -> copyDir
         if(!Files.exists(target)){
             copy(new File(dir.toUri()), new File(target.toUri()));
+            System.out.println("Directory has been copied");
         }
 
         //In Quelle nein und Ziel ja? Im Ziel löschen
         if (!Files.exists(dir) && Files.exists(target)){
             deleteFile(target);
+            System.out.println("Directory was deleted");
         }
 
         //In Quelle und ziel ja? continue
         if (Files.exists(dir) && Files.exists(target)){
             return FileVisitResult.CONTINUE;
         }
+
         return FileVisitResult.CONTINUE;
     }
 
@@ -49,6 +50,7 @@ public class Make_Backup implements FileVisitor<Path> {
         //Ist File im Ziel vorhanden? nein -> copy
         if(!Files.exists(target)){
             copy(sourceFile, targetFile);
+            System.out.println("File has been copied");
         }
 
         //In Quelle und ziel ja? vergleiche Attribut lastModified. lastModified ungleich? -> copy sonst continue
@@ -58,12 +60,14 @@ public class Make_Backup implements FileVisitor<Path> {
                 return FileVisitResult.CONTINUE;
             } else {
                 copy(sourceFile, targetFile);
+                System.out.println("File has been copied");
             }
         }
 
         //In Quelle nein und Ziel ja? Im Ziel löschen
         if (!Files.exists(file) && Files.exists(target)){
             deleteFile(target);
+            System.out.println("File was deleted");
             return FileVisitResult.CONTINUE;
         }
         return FileVisitResult.CONTINUE;
@@ -77,11 +81,6 @@ public class Make_Backup implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-        boolean finishedSearch = Files.isSameFile(dir, START_DIR);
-        if (finishedSearch) {
-            System.out.println("File:" + FILE_NAME + " not found");
-            return FileVisitResult.TERMINATE;
-        }
         return FileVisitResult.CONTINUE;
     }
 
