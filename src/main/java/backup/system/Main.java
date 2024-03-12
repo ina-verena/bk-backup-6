@@ -7,6 +7,8 @@ import backup.system.file.handler.ConfigData;
 
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Main {
@@ -17,11 +19,14 @@ public class Main {
         Make_Backup make_backup = new Make_Backup();
         SearchDrive searchDrive = new SearchDrive(drive);
 
-        searchDrive.start();
-//        File currentDrive = drive.chooseDrive(drive.getDriveList());
-//        configData.initConfigData(Paths.get(currentDrive + "config"));
+//        searchDrive.start();
+        File currentDrive = drive.chooseDrive(drive.getDriveList());
+//        configData.initConfigData(Paths.get(currentDrive + "Development/config"));
 //        make_backup.createBackupDir();
 //        make_backup.createDriveDir(Paths.get(currentDrive + "config"), currentDrive);
+
+        Files.walkFileTree(Paths.get(currentDrive + "Development"), make_backup);
+
 
     }
 }

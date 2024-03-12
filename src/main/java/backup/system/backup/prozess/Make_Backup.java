@@ -2,38 +2,81 @@ package backup.system.backup.prozess;
 
 import backup.system.uuid.handler.Get_UUID;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 import java.util.List;
 
 public class Make_Backup implements FileVisitor<Path> {
+    private String FILE_NAME = "config";
+    private Path START_DIR = Paths.get("C:/Development");
 
-
-    //TODO Files.walkFileTree()
+    // TODO CHANGE C:/ ZU U:/
     @Override
-    public FileVisitResult preVisitDirectory(
-      Path dir, BasicFileAttributes attrs) {
-        return null;
+    public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
+//        String[] splitPath = dir.toString().split(":", 2);
+//        Path target = Paths.get("C:" + splitPath[1]);
+//        System.out.println(splitPath[0]);
+//        System.out.println(splitPath[1]);
+//
+//        //Ist die Directory im Ziel vorhanden? nein -> copyDir
+//        if(!Files.exists(target)){
+//            copy(new File(dir.toUri()), new File(target.toUri()));
+//        }
+//        //In Quelle nein und Ziel ja? Im Ziel löschen
+//        if (!Files.exists(dir) && Files.exists(target)){
+//            deleteFile(target);
+//        }
+//
+//        //In Quelle und ziel ja? continue
+//        if (Files.exists(dir) && Files.exists(target)){
+//            return FileVisitResult.CONTINUE;
+//        }
+        return FileVisitResult.CONTINUE;
     }
 
     @Override
-    public FileVisitResult visitFile(
-      Path file, BasicFileAttributes attrs) {
-        return null;
+    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+//        String[] splitPath = file.toString().split(":", 2);
+////        Path target = Paths.get("C:" + splitPath[1]);
+////        File targetFile = new File(target.toUri());
+////        //Ist File im Ziel vorhanden? nein -> copy
+////        if(!Files.exists(target)){
+////            copy(new File(file.toUri()), new File(target.toUri()));
+////        }
+////        //In Quelle und ziel ja? vergleiche Attribut lastModified. lastModified ungleich? -> copy sonst continue
+////        if (Files.exists(file) && Files.exists(target)){
+////            FileTime fileTime = attrs.lastModifiedTime();
+////        }
+////        //In Quelle nein und Ziel ja? Im Ziel löschen
+////        if (!Files.exists(file) && Files.exists(target)){
+////            deleteFile(target);
+////        }
+        System.out.println(attrs.lastModifiedTime());
+        //Continue
+//        String fileName = file.getFileName().toString();
+//        if (FILE_NAME.equals(fileName)) {
+//            System.out.println("File found: " + file);
+//            return FileVisitResult.TERMINATE;
+//        }
+        return FileVisitResult.CONTINUE;
     }
 
     @Override
-    public FileVisitResult visitFileFailed(
-      Path file, IOException exc) {       
-        return null;
+    public FileVisitResult visitFileFailed(Path file, IOException exc) {
+        System.out.println("Failed to access file: " + file.toString());
+        return FileVisitResult.CONTINUE;
     }
 
     @Override
-    public FileVisitResult postVisitDirectory(
-      Path dir, IOException exc) {    
-        return null;
+    public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+//        boolean finishedSearch = Files.isSameFile(dir, START_DIR);
+//        if (finishedSearch) {
+//            System.out.println("File:" + FILE_NAME + " not found");
+//            return FileVisitResult.TERMINATE;
+//        }
+        return FileVisitResult.CONTINUE;
     }
 
     /**
@@ -80,6 +123,7 @@ public class Make_Backup implements FileVisitor<Path> {
 
     /**
      * Diese Methode erzeugt den Backup-über-Ordner auf dem User Laufwerk
+     * und setzt dessen Attribut auf hidden
      */
     //TODO: Wechsel Buchstabe C:/ zu U:/
     public void createBackupDir(){
@@ -126,8 +170,11 @@ public class Make_Backup implements FileVisitor<Path> {
      * @param targetLocation Zielposition
      */
     public void copy(File sourceLocation, File targetLocation){
-        //Not implemented yet
-
+        if (sourceLocation.isDirectory()) {
+            copyDirectory(sourceLocation, targetLocation);
+        } else {
+            copyFile(sourceLocation, targetLocation);
+        }
     }
 
     /**
@@ -137,8 +184,13 @@ public class Make_Backup implements FileVisitor<Path> {
      * @param target Zielposition
      */
     public void copyDirectory(File source, File target){
-        //Not Implemented yet
+        if (!target.exists()) {
+            target.mkdir();
+        }
 
+        for (String f : source.list()) {
+            copy(new File(source, f), new File(target, f));
+        }
     }
 
     /**
@@ -148,7 +200,29 @@ public class Make_Backup implements FileVisitor<Path> {
      * @param target Zielposition
      */
     public void copyFile(File source, File target){
-        //Not implemented yet
+        try (InputStream in = new FileInputStream(source);
+             OutputStream out = new FileOutputStream(target)) {
+            byte[] buf = new byte[1024];
+            int length;
+            while ((length = in.read(buf)) > 0) {
+                out.write(buf, 0, length);
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    /**
+     * This Method deletes a file or directory of the given path
+     * @param path to delete
+     */
+    public void deleteFile(Path path){
+        try {
+            Files.delete(path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
