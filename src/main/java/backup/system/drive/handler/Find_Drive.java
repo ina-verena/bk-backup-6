@@ -3,8 +3,11 @@ package backup.system.drive.handler;
 import backup.system.file.handler.ConfigData;
 
 import javax.swing.filechooser.FileSystemView;
+import java.awt.*;
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -27,6 +30,15 @@ public class Find_Drive {
         return drives;
     }
 
+    public List<String> getDriveListAsString(){
+        File[] drives = File.listRoots();
+        List<String> stringDrives = new ArrayList<>();
+
+        for (File drive : drives) {
+            stringDrives.add(drive.toString());
+        }
+        return stringDrives;
+    }
     public void visualizeDriveList(File[] drives){
         for (int i = 0; i < drives.length; i++){
             System.out.println(drives[i]);

@@ -174,7 +174,6 @@ public class Gui extends JFrame {
      		JPanel drivers = new JPanel();
      		drivers.setBackground(SystemColor.activeCaption);
      		main.add(drivers, "name_drivers");
-     		
      		JLabel lblNewLabel = new JLabel("Drivers List");
      		lblNewLabel.setForeground(SystemColor.text);
      		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
