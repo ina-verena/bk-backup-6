@@ -159,6 +159,15 @@ public class Make_Backup implements FileVisitor<Path> {
         try {
             Files.createDirectories(Paths.get("C:/.Backup/" + uuid));
             Files.createDirectories(Paths.get("C:/.Backup/" + uuid + "/backup"));
+            copyConfig(uuid, aDrive);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //TODO CHANGE C:/ TO U:/
+    public void copyConfig(String uuid, File aDrive){
+        try {
             Files.copy(Paths.get(aDrive + "config"), Paths.get("C:/.Backup/" + uuid + "/config"));
         } catch (IOException e) {
             throw new RuntimeException(e);
