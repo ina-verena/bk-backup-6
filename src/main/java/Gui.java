@@ -1,5 +1,9 @@
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.SystemColor;
 
@@ -9,13 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import java.awt.CardLayout;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Rectangle;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class Gui extends JFrame {
 
@@ -41,6 +38,8 @@ public class Gui extends JFrame {
 	 * Create the frame.
 	 */
 	public Gui() {
+// Aufbau der Struktur	---------------------------------------------------------------------------
+		
 		setBackground(SystemColor.activeCaption);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 350, 500);
@@ -55,6 +54,7 @@ public class Gui extends JFrame {
 		main.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(main, BorderLayout.CENTER);
 
+// Hier werden die einzelnen Panels/Cards erstellt -------------------------------------------------
 		
 		JPanel test = new JPanel();
 		main.add(test, "name_test");
@@ -62,6 +62,8 @@ public class Gui extends JFrame {
 		JPanel start = new JPanel();
 		start.setBackground(SystemColor.activeCaption);
 		main.add(start, "name_start");
+		
+// Danach werden sie mit Inhal gefüllt -------------------------------------------------------------		
 		
 		JLabel lblNewLabel = new JLabel("TEST");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -117,6 +119,8 @@ public class Gui extends JFrame {
 		contentPane.add(footer, BorderLayout.SOUTH);
 		footer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
+// Footer ------------------------------------------------------------------------------
+		
 		JButton btnStartmen = new JButton("Startmenü");
 		btnStartmen.addActionListener(e -> {
 			CardLayout cardLayout = (CardLayout) main.getLayout();
@@ -134,6 +138,8 @@ public class Gui extends JFrame {
 		});
 		
 		btnBeenden.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		
+// Intiales Panel/Card mit dem das Programm startet		
 		
 		CardLayout cardLayout = (CardLayout) main.getLayout();
         cardLayout.show(main, "name_start");
