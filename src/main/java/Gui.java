@@ -54,25 +54,17 @@ public class Gui extends JFrame {
 		main.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(main, BorderLayout.CENTER);
 
-// Hier werden die einzelnen Panels/Cards erstellt -------------------------------------------------
-		
-		JPanel test = new JPanel();
-		main.add(test, "name_test");
-		
+
+	
+// Panel für das Startmenü mit den vielen Buttons
 		JPanel start = new JPanel();
 		start.setBackground(SystemColor.activeCaption);
 		main.add(start, "name_start");
 		
-// Danach werden sie mit Inhal gefüllt -------------------------------------------------------------		
-		
-		JLabel lblNewLabel = new JLabel("TEST");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		test.add(lblNewLabel);
-		
 		JButton btnNewButton = new JButton("Backup einrichten");
 		btnNewButton.addActionListener(e -> {
 			CardLayout cardLayout = (CardLayout) main.getLayout();
-			cardLayout.show(main, "name_test");
+			cardLayout.show(main, "name_drivers");
 		});
 		
 		start.setLayout(null);
@@ -83,26 +75,46 @@ public class Gui extends JFrame {
 		JButton btnBackupStarten = new JButton("Backup starten");
 		btnBackupStarten.setBounds(67, 89, 207, 29);
 		btnBackupStarten.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnBackupStarten.addActionListener(e -> {
+			CardLayout cardLayout = (CardLayout) main.getLayout();
+			cardLayout.show(main, "name_running");
+		});
 		start.add(btnBackupStarten);
 		
 		JButton btnBackupWiederherstellen = new JButton("Backup wiederherstellen");
 		btnBackupWiederherstellen.setBounds(67, 207, 207, 29);
 		btnBackupWiederherstellen.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnBackupWiederherstellen.addActionListener(e -> {
+			CardLayout cardLayout = (CardLayout) main.getLayout();
+			cardLayout.show(main, "name_drivers");
+		});
 		start.add(btnBackupWiederherstellen);
 		
 		JButton btnBackupsAuflisten = new JButton("Backups auflisten");
 		btnBackupsAuflisten.setBounds(67, 148, 207, 29);
 		btnBackupsAuflisten.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnBackupsAuflisten.addActionListener(e -> {
+			CardLayout cardLayout = (CardLayout) main.getLayout();
+			cardLayout.show(main, "name_backups");
+		});
 		start.add(btnBackupsAuflisten);
 		
 		JButton btnLogStatus = new JButton("Log / Status");
 		btnLogStatus.setBounds(67, 266, 207, 29);
 		btnLogStatus.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnLogStatus.addActionListener(e -> {
+			CardLayout cardLayout = (CardLayout) main.getLayout();
+			cardLayout.show(main, "name_log");
+		});
 		start.add(btnLogStatus);
 		
 		JButton btnInfoHilfe = new JButton("Info / Hilfe");
 		btnInfoHilfe.setBounds(67, 325, 207, 29);
 		btnInfoHilfe.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnInfoHilfe.addActionListener(e -> {
+			CardLayout cardLayout = (CardLayout) main.getLayout();
+			cardLayout.show(main, "name_help");
+		});
 		start.add(btnInfoHilfe);
 		
 		JLabel headerText = new JLabel("BK-Backup");
@@ -143,5 +155,75 @@ public class Gui extends JFrame {
 		
 		CardLayout cardLayout = (CardLayout) main.getLayout();
         cardLayout.show(main, "name_start");
+        
+// Panel welches die Backups auflistet        
+        JPanel backups = new JPanel();
+        backups.setBackground(SystemColor.activeCaption);
+        main.add(backups, "name_backups");
+        
+        JLabel lblBackupsList = new JLabel("Backup List");
+        lblBackupsList.setForeground(Color.WHITE);
+        lblBackupsList.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        backups.add(lblBackupsList);
+
+// Panel welches die Laufwerke auflistet
+     		JPanel drivers = new JPanel();
+     		drivers.setBackground(SystemColor.activeCaption);
+     		main.add(drivers, "name_drivers");
+     		
+     		JLabel lblNewLabel = new JLabel("Drivers List");
+     		lblNewLabel.setForeground(SystemColor.text);
+     		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+     		drivers.add(lblNewLabel);	
+     		
+//  Panel welches das Backup einrichten lässt        
+        JPanel initial = new JPanel();
+        initial.setBackground(SystemColor.activeCaption);
+        main.add(initial, "name_initial");
+        
+        JLabel lblBackupEinrichten = new JLabel("Backup einrichten");
+        lblBackupEinrichten.setForeground(Color.WHITE);
+        lblBackupEinrichten.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        initial.add(lblBackupEinrichten);
+        
+// Panel welches angezeigt wird, wenn das Backup läuft        
+        JPanel running = new JPanel();
+        running.setBackground(SystemColor.activeCaption);
+        main.add(running, "name_running");
+        
+        JLabel lblBackupLuft = new JLabel("Backup läuft");
+        lblBackupLuft.setForeground(Color.WHITE);
+        lblBackupLuft.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        running.add(lblBackupLuft);
+        
+// Panel für die Bestätigung das das Backup erfolgreich war        
+        JPanel finish = new JPanel();
+        finish.setBackground(SystemColor.activeCaption);
+        main.add(finish, "name_finish");
+        
+        JLabel lblNewLabel_1 = new JLabel("Backup erstellt");
+        lblNewLabel_1.setForeground(Color.WHITE);
+        lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        finish.add(lblNewLabel_1);
+        
+// Panel für die Log Meldungen 
+        JPanel log = new JPanel();
+        log.setBackground(SystemColor.activeCaption);
+        main.add(log, "name_log");
+        
+        JLabel lblLogReport = new JLabel("Log / Report");
+        lblLogReport.setForeground(Color.WHITE);
+        lblLogReport.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        log.add(lblLogReport);
+        
+// Panel für die Anleitung des Programmes        
+        JPanel help = new JPanel();
+        help.setBackground(SystemColor.activeCaption);
+        main.add(help, "name_help");
+        
+        JLabel lblAnleitung = new JLabel("Anleitung");
+        lblAnleitung.setForeground(Color.WHITE);
+        lblAnleitung.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        help.add(lblAnleitung);
 	}
 }
