@@ -20,13 +20,22 @@ public class Main {
         SearchDrive searchDrive = new SearchDrive(drive);
 
 //        searchDrive.start();
+
+
+        //Choose one of the listed drivers
         File currentDrive = drive.chooseDrive(drive.getDriveList());
-//        configData.initConfigData(Paths.get(currentDrive + "Development/config"));
-//        make_backup.createBackupDir();
-//        make_backup.createDriveDir(Paths.get(currentDrive + "config"), currentDrive);
-
-        Files.walkFileTree(Paths.get(currentDrive + "Development"), make_backup);
-
+        //initialize the driver with a config data
+        configData.initConfigData(Paths.get(currentDrive + "config"));
+        //get path of the config file on the external driver
+        Path pathOfConfigOnExternal = Paths.get(currentDrive + "config");
+        //create .Backup dir on user drive
+        make_backup.createBackupDir();
+        //create dir backup structure on user drive
+        make_backup.createDriveDir(pathOfConfigOnExternal);
+        //copies config data from external drive into backup structure on user drive
+        make_backup.copyConfig(pathOfConfigOnExternal, currentDrive);
+        //make a backup from external drive into backup structure on user drive
+        Files.walkFileTree(Paths.get("E:/"), make_backup);
 
     }
 }
