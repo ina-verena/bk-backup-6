@@ -23,8 +23,8 @@ public class Get_UUID {
     }
 
     /**
-     * Wandelt die UUID in dem File des übergebenen Paths in einen Strong
-     * @param path
+     * Wandelt die UUID in dem File des übergebenen Paths in einen String
+     * @param path des Files
      * @return
      */
     public String getUUIDAsString(Path path){

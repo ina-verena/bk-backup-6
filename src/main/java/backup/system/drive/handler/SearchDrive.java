@@ -10,7 +10,7 @@ public class SearchDrive extends Thread{
     }
 
     /**
-     * Ein Thread der regelmäßig Abschnitten kontrolliert,
+     * Ein Thread der in regelmäßigen Abschnitten kontrolliert,
      * ob ein Laufwerk angeschlossen oder entfernt wurde
      */
     public void run() {
