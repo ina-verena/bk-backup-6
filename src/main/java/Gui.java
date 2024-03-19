@@ -8,7 +8,11 @@ import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.SystemColor;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
 
 import javax.swing.JButton;
@@ -22,6 +26,8 @@ import javax.swing.JTextPane;
 import javax.swing.JList;
 import javax.swing.JRadioButton;
 import javax.swing.JProgressBar;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 public class Gui extends JFrame {
 
@@ -84,12 +90,30 @@ public class Gui extends JFrame {
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		start.add(btnNewButton);
 		
+        JProgressBar progressBar = new JProgressBar();
+        progressBar.setBounds(24, 275, 279, 28);
+        progressBar.setStringPainted(true); // Aktiviere die Textanzeige
+
+		
 		JButton btnBackupStarten = new JButton("Backup starten");
 		btnBackupStarten.setBounds(67, 89, 207, 29);
 		btnBackupStarten.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnBackupStarten.addActionListener(e -> {
 			CardLayout cardLayout = (CardLayout) main.getLayout();
 			cardLayout.show(main, "name_running");
+ 	        new Thread(() -> {
+ 	            for (int i = 0; i <= 100; i++) {
+ 	                progressBar.setValue(i); // Setze den Fortschrittswert
+ 	                if (i == 100) {
+ 	                    progressBar.setString("Fertig!"); // Endnachricht
+ 	                }
+ 	                try {
+ 	                    Thread.sleep(50); // Wartezeit für die Animation
+ 	                } catch (InterruptedException ex) {
+ 	                    ex.printStackTrace();
+ 	                }
+ 	            }
+ 	        }).start();
 		});
 		start.add(btnBackupStarten);
 		
@@ -254,15 +278,26 @@ public class Gui extends JFrame {
         lblBackupLuft.setFont(new Font("Tahoma", Font.PLAIN, 18));
         running.add(lblBackupLuft);
         
-        JProgressBar progressBar = new JProgressBar();
-        progressBar.setBounds(24, 275, 279, 28);
         running.add(progressBar);
         
-        JLabel lblNewLabel_1 = new JLabel("0%");
-        lblNewLabel_1.setForeground(SystemColor.text);
-        lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-        lblNewLabel_1.setBounds(150, 311, 74, 46);
-        running.add(lblNewLabel_1);
+        try {
+        	BufferedImage myPicture = ImageIO.read(new File("src/assets/sanduhr.png"));
+        	JLabel sanduhr = new JLabel(new ImageIcon(myPicture));
+	        sanduhr.setBounds(112, 91, 112, 145);
+	        
+        	int sanduhrWidth = sanduhr.getWidth();
+        	int sanduhrHeight = sanduhr.getHeight();
+        	Image scaledImage = myPicture.getScaledInstance(sanduhrWidth, sanduhrHeight, Image.SCALE_SMOOTH);
+			
+        	ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        	sanduhr.setIcon(scaledIcon);
+        	
+	        running.add(sanduhr);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+        
+        
         
 // Panel für die Bestätigung das das Backup erfolgreich war        
         JPanel finish = new JPanel();
@@ -297,4 +332,5 @@ public class Gui extends JFrame {
         lblAnleitung.setFont(new Font("Tahoma", Font.PLAIN, 18));
         help.add(lblAnleitung);
 	}
+	
 }
