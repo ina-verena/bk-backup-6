@@ -14,6 +14,22 @@ import java.util.logging.Logger;
 public class Make_Backup implements FileVisitor<Path> {
 
     // TODO CHANGE C:/ ZU U:/
+
+    /**
+     * This method starts at the dir path which is given in the File.walkFileTree method
+     * and controls if the source dir is hidden AND readable to process and checks
+     * whether the source dir exists at the target location or not.
+     * Does it not exists it copies the dir, all files inside included.
+     * If the dir does not exist in the source location but in the target location,
+     * the dir with all insides is going to be deleted
+     * Does the dir exists in both, this method returns a continue enum to process
+     * @param dir current
+     *          a reference to the directory
+     * @param attrs attribute of the dir
+     *          the directory's basic attributes
+     *
+     * @return FileVisitResult Enum
+     */
     @Override
     public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
         String sourcePath = dir.toString().substring(2);
@@ -45,6 +61,23 @@ public class Make_Backup implements FileVisitor<Path> {
     }
 
     //TODO CHANGE C:/ ZU U:/
+
+    /**
+     * This method starts at the first file of the dir, in which we are already in
+     * from the previous preVisitDirectory method
+     * and controls if the source file is hidden AND readable to process and checks
+     * whether the source file exists at the target location or not.
+     * Does it not exists in the target location, the file will be copied.
+     * If the file does not exist in the source location but in the target location,
+     * the file is going to be deleted
+     * Does the file exists in both, this method returns a continue enum to process
+     * @param file current
+     *          a reference to the file
+     * @param attrs attributes of file
+     *          the file's basic attributes
+     *
+     * @return FileVisitResult Enum
+     */
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
         String sourcePath = file.toString().substring(2);
@@ -82,12 +115,33 @@ public class Make_Backup implements FileVisitor<Path> {
         return FileVisitResult.CONTINUE;
     }
 
+    /**
+     * Put out a message with the fail which was failed to access
+     * @param file to access
+     *          a reference to the file
+     * @param exc exception
+     *          the I/O exception that prevented the file from being visited
+     *
+     * @return FileVisitResult Enum
+     */
     @Override
     public FileVisitResult visitFileFailed(Path file, IOException exc) {
         System.out.println("Failed to access file: " + file.toString());
         return FileVisitResult.CONTINUE;
     }
 
+    /**
+     * Does nothing special
+     * @param dir current
+     *          a reference to the directory
+     * @param exc exception
+     *          {@code null} if the iteration of the directory completes without
+     *          an error; otherwise the I/O exception that caused the iteration
+     *          of the directory to complete prematurely
+     *
+     * @return FileVisitResult Enum
+     * @throws IOException
+     */
     @Override
     public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
         return FileVisitResult.CONTINUE;
