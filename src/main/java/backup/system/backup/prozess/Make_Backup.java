@@ -13,6 +13,12 @@ import java.util.logging.Logger;
 
 public class Make_Backup implements FileVisitor<Path> {
 
+    private Path pathOfConfig;
+
+    public void setPathOfConfig(Path pathOfConfig) {
+        this.pathOfConfig = pathOfConfig;
+    }
+
     // TODO CHANGE C:/ ZU U:/
 
     /**
@@ -23,21 +29,23 @@ public class Make_Backup implements FileVisitor<Path> {
      * If the dir does not exist in the source location but in the target location,
      * the dir with all insides is going to be deleted
      * Does the dir exists in both, this method returns a continue enum to process
-     * @param dir current
-     *          a reference to the directory
-     * @param attrs attribute of the dir
-     *          the directory's basic attributes
      *
+     * @param dir   current
+     *              a reference to the directory
+     * @param attrs attribute of the dir
+     *              the directory's basic attributes
      * @return FileVisitResult Enum
      */
     @Override
     public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
         String sourcePath = dir.toString().substring(2);
+        Get_UUID get_uuid = new Get_UUID();
+        String uuid = get_uuid.getUUIDAsString(pathOfConfig);
 
         File sourceFile = new File(dir.toUri());
 
         if (!sourceFile.isHidden() && Files.isReadable(dir)) {
-            File targetFile = new File("D:/.Backup/Backup" + sourcePath);
+            File targetFile = new File("U:/.Backup/" + uuid + "/Backup" + sourcePath);
 
             //Ist die Directory im Ziel vorhanden? nein -> copyDir
             if (!Files.exists(targetFile.toPath())) {
@@ -71,22 +79,23 @@ public class Make_Backup implements FileVisitor<Path> {
      * If the file does not exist in the source location but in the target location,
      * the file is going to be deleted
      * Does the file exists in both, this method returns a continue enum to process
-     * @param file current
-     *          a reference to the file
-     * @param attrs attributes of file
-     *          the file's basic attributes
      *
+     * @param file  current
+     *              a reference to the file
+     * @param attrs attributes of file
+     *              the file's basic attributes
      * @return FileVisitResult Enum
      */
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
         String sourcePath = file.toString().substring(2);
         File sourceFile = new File(file.toUri());
+        Get_UUID get_uuid = new Get_UUID();
+        String uuid = get_uuid.getUUIDAsString(pathOfConfig);
 
         if (!sourceFile.isHidden() && Files.isReadable(file)) {
-            Path target = Paths.get("D:/.Backup/Backup" + sourcePath);
+            Path target = Paths.get("U:/.Backup/" + uuid + "/Backup" + sourcePath);
             File targetFile = new File(target.toUri());
-
 
             //Ist File im Ziel vorhanden? nein -> copy
             if (!Files.exists(target)) {
@@ -117,11 +126,11 @@ public class Make_Backup implements FileVisitor<Path> {
 
     /**
      * Put out a message with the fail which was failed to access
-     * @param file to access
-     *          a reference to the file
-     * @param exc exception
-     *          the I/O exception that prevented the file from being visited
      *
+     * @param file to access
+     *             a reference to the file
+     * @param exc  exception
+     *             the I/O exception that prevented the file from being visited
      * @return FileVisitResult Enum
      */
     @Override
@@ -132,13 +141,13 @@ public class Make_Backup implements FileVisitor<Path> {
 
     /**
      * Does nothing special
-     * @param dir current
-     *          a reference to the directory
-     * @param exc exception
-     *          {@code null} if the iteration of the directory completes without
-     *          an error; otherwise the I/O exception that caused the iteration
-     *          of the directory to complete prematurely
      *
+     * @param dir current
+     *            a reference to the directory
+     * @param exc exception
+     *            {@code null} if the iteration of the directory completes without
+     *            an error; otherwise the I/O exception that caused the iteration
+     *            of the directory to complete prematurely
      * @return FileVisitResult Enum
      * @throws IOException
      */
@@ -198,12 +207,12 @@ public class Make_Backup implements FileVisitor<Path> {
     public void createBackupDir() {
 
         try {
-            Files.createDirectories(Paths.get("D:/.Backup"));
+            Files.createDirectories(Paths.get("U:/.Backup"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        hideFile(Paths.get("D:/.Backup"));
+        hideFile(Paths.get("U:/.Backup"));
     }
 
     /**
@@ -218,19 +227,19 @@ public class Make_Backup implements FileVisitor<Path> {
         Get_UUID get_uuid = new Get_UUID();
         String uuid = get_uuid.getUUIDAsString(path);
         try {
-            Files.createDirectories(Paths.get("D:/.Backup/" + uuid));
-            Files.createDirectories(Paths.get("D:/.Backup/" + uuid + "/backup"));
+            Files.createDirectories(Paths.get("U:/.Backup/" + uuid));
+            Files.createDirectories(Paths.get("U:/.Backup/" + uuid + "/backup"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     //TODO CHANGE C:/ TO U:/
-    public void copyConfig(Path path, File aDrive) {
+    public void copyConfig(Path path) {
         Get_UUID get_uuid = new Get_UUID();
         String uuid = get_uuid.getUUIDAsString(path);
         try {
-            Files.copy(Paths.get(aDrive + "config"), Paths.get("D:/.Backup/" + uuid + "/config"));
+            Files.copy(path, Paths.get("U:/.Backup/" + uuid + "/config"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -245,11 +254,11 @@ public class Make_Backup implements FileVisitor<Path> {
      * @param targetLocation Zielposition
      */
     public void copy(File sourceLocation, File targetLocation) {
-        if (sourceLocation.isDirectory()) {
-            copyDirectory(sourceLocation, targetLocation);
-        } else {
-            copyFile(sourceLocation, targetLocation);
-        }
+            if (sourceLocation.isDirectory()) {
+                copyDirectory(sourceLocation, targetLocation);
+            } else {
+                copyFile(sourceLocation, targetLocation);
+            }
     }
 
     /**
@@ -283,7 +292,8 @@ public class Make_Backup implements FileVisitor<Path> {
                 out.write(buf, 0, length);
             }
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            //throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

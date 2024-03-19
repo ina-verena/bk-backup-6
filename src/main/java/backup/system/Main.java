@@ -28,14 +28,15 @@ public class Main {
         configData.initConfigData(Paths.get(currentDrive + "config"));
         //get path of the config file on the external driver
         Path pathOfConfigOnExternal = Paths.get(currentDrive + "config");
+        make_backup.setPathOfConfig(pathOfConfigOnExternal);
         //create .Backup dir on user drive
-        make_backup.createBackupDir();
-        //create dir backup structure on user drive
-        make_backup.createDriveDir(pathOfConfigOnExternal);
-        //copies config data from external drive into backup structure on user drive
-        make_backup.copyConfig(pathOfConfigOnExternal, currentDrive);
+//        make_backup.createBackupDir();
+//        //create dir backup structure on user drive
+//        make_backup.createDriveDir(pathOfConfigOnExternal);
+//        //copies config data from external drive into backup structure on user drive
+//        make_backup.copyConfig(pathOfConfigOnExternal);
         //make a backup from external drive into backup structure on user drive
-        Files.walkFileTree(Paths.get("E:/"), make_backup);
+        Files.walkFileTree(Paths.get(String.valueOf(currentDrive)), make_backup);
 
     }
 }
