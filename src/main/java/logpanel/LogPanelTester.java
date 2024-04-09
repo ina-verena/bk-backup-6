@@ -12,9 +12,9 @@ public class LogPanelTester {
 	}
 
 	public LogPanelTester() {
-	   LogPanel logPanel1 = LogPanel.getLogPanel ();
+		LogPanel logPanel1 = LogPanel.getLogPanel();
 
-	   createExampleFrame();
+		createExampleFrame();
 		frame.add(logPanel1, BorderLayout.CENTER);
 		frame.setVisible(true);
 
@@ -25,16 +25,20 @@ public class LogPanelTester {
 				"Langer Text im Debug-Modus skdskdj fhskj skjd hksdjh fksjdh fksj fdhksjd hfskdj hskdfj hskdj fhksjdh skdjh ksdjf hk");
 		logPanel1.addLogEntry(LogPanel.MESSAGE_WARNING, "Ich fuehle mich heute nicht gut");
 		logPanel1.addLogEntry(LogPanel.MESSAGE_ERROR, "Da ist ein Fehler passiert");
-		
-		// Ein zweites LogPanel holen und Meldung in der gleichen GUI anzeigen, wie LogPanel1
+
+		// Ein zweites LogPanel holen und Meldung in der gleichen GUI anzeigen, wie
+		// LogPanel1
 		// Dieser Code knn in jeder Klasse des gleichen Programms genutzt werden
-		LogPanel logPanel2 = LogPanel.getLogPanel ();
+		LogPanel logPanel2 = LogPanel.getLogPanel();
 		logPanel2.addLogEntry("LogPanel2 sollte auf das gleiche LogPanel zugreifen, wie LogPanel1");
-		
-		// Eventuell sind statische Methoden ja doch einfacher? Dann muesste man sich nicht immer erst ein Objekt der Klasse holen.
+
+		// Eventuell sind statische Methoden ja doch einfacher? Dann muesste man sich
+		// nicht immer erst ein Objekt der Klasse holen.
 		// Einfach nur "LogPanel.addLogEntry()" und der Keks ist gegessen.
-		// Alternativ kann auch System.out.println() einfach in das LogPanel umgeleitet werden. Dann ist die Protokollierung wie "native Java-Konsole"
-      LogPanel.getLogPanel ().addLogEntry(LogPanel.MESSAGE_DEBUG, "Natuerlich koennen auch spezifische Message-Typen angegeben werden.");
+		// Alternativ kann auch System.out.println() einfach in das LogPanel umgeleitet
+		// werden. Dann ist die Protokollierung wie "native Java-Konsole"
+		LogPanel.getLogPanel().addLogEntry(LogPanel.MESSAGE_DEBUG,
+				"Natuerlich koennen auch spezifische Message-Typen angegeben werden.");
 	}
 
 	// Hilfsmethode(n)
