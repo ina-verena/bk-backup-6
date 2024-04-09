@@ -1,3 +1,6 @@
+package frontend;
+
+import backup.system.services.BackupService;
 import backup.system.services.FindDriveService;
 import backup.system.model.ConfigData;
 
@@ -13,6 +16,7 @@ import java.awt.SystemColor;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.swing.JButton;
@@ -31,6 +35,10 @@ public class Gui extends JFrame {
 
 	FindDriveService find_driveService = new FindDriveService();
 	ConfigData configData = new ConfigData();
+
+	BackupService backupService = new BackupService(this);
+
+
 
 	/**
 	 * Launch the application.
@@ -90,25 +98,28 @@ public class Gui extends JFrame {
         progressBar.setBounds(24, 275, 279, 28);
         progressBar.setStringPainted(true); // Aktiviere die Textanzeige
 
-		
 		JButton btnBackupStarten = new JButton("Backup starten");
 		btnBackupStarten.setBounds(67, 89, 207, 29);
 		btnBackupStarten.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnBackupStarten.addActionListener(e -> {
 			CardLayout cardLayout = (CardLayout) main.getLayout();
 			cardLayout.show(main, "name_running");
+			File currentDrive = find_driveService.chooseDrive(find_driveService.getDriveList());
+			Path pathOfConfigOnExternal = Paths.get(currentDrive + "config");
+			backupService.setPathOfConfig(pathOfConfigOnExternal);
+
  	        new Thread(() -> {
- 	            for (int i = 0; i <= 100; i++) {
- 	                progressBar.setValue(i); // Setze den Fortschrittswert
- 	                if (i == 100) {
+				backupService.startBackup(String.valueOf(currentDrive), backupService);
+ 	                progressBar.setValue(backupService.getLengthInPercent()); // Setze den Fortschrittswert
+ 	                if (backupService.getLengthInPercent() == 100) {
  	                    progressBar.setString("Fertig!"); // Endnachricht
  	                }
  	                try {
- 	                    Thread.sleep(50); // Wartezeit für die Animation
+ 	                    Thread.sleep(5); // Wartezeit für die Animation
  	                } catch (InterruptedException ex) {
  	                    ex.printStackTrace();
  	                }
- 	            }
+
  	        }).start();
 		});
 		start.add(btnBackupStarten);
@@ -328,5 +339,9 @@ public class Gui extends JFrame {
         lblAnleitung.setFont(new Font("Tahoma", Font.PLAIN, 18));
         help.add(lblAnleitung);
 	}
-	
+
+	public void changeProgressBar(int value) {
+		backupService.setLengthInPercent(value);
+		System.out.println("PROGRESS " + value);
+	}
 }

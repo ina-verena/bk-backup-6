@@ -4,6 +4,7 @@ import backup.system.services.BackupService;
 import backup.system.services.FindDriveService;
 import backup.system.services.SearchDriveService;
 import backup.system.model.ConfigData;
+import frontend.Gui;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -15,7 +16,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         ConfigData configData = new ConfigData();
         FindDriveService drive = new FindDriveService();
-        BackupService backupService = new BackupService();
+        BackupService backupService = new BackupService(new Gui());
         SearchDriveService searchDriveService = new SearchDriveService(drive);
 
 //        searchDrive.start();

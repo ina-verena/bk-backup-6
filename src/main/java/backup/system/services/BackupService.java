@@ -1,6 +1,7 @@
 package backup.system.services;
 
 import backup.system.model.Data;
+import frontend.Gui;
 
 import java.io.*;
 import java.nio.file.*;
@@ -9,6 +10,7 @@ import java.nio.file.attribute.FileTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class BackupService implements FileVisitor<Path> {
 
@@ -18,14 +20,36 @@ public class BackupService implements FileVisitor<Path> {
 
     private long currentLength = 0;
 
+    private int lengthInPercent = 0;
+
+    private Gui gui;
+
     private List<Data> dataCopyList = new ArrayList<>();
 
     private List<Data> dataDeleteList = new ArrayList<>();
+
+    public BackupService(Gui gui) {
+        this.gui = gui;
+    }
 
     public void setPathOfConfig(Path pathOfConfig) {
         this.pathOfConfig = pathOfConfig;
     }
 
+    //get lengthInPercent
+    public int getLengthInPercent() {
+        return lengthInPercent;
+    }
+
+    //getter totalLength
+    public long getTotalLength() {
+        return totalLength;
+    }
+
+    //getter currentLength
+    public long getCurrentLength() {
+        return currentLength;
+    }
     public void setTotalLength(long totalLength) {
         this.totalLength = totalLength;
     }
@@ -33,6 +57,11 @@ public class BackupService implements FileVisitor<Path> {
     //setter currentLength
     public void setCurrentLength(long currentLength) {
         this.currentLength = currentLength;
+    }
+
+    //setter lengthInPercent
+    public void setLengthInPercent(int lengthInPercent) {
+        this.lengthInPercent = lengthInPercent;
     }
 
     // TODO CHANGE C:/ ZU U:/
@@ -188,33 +217,28 @@ public class BackupService implements FileVisitor<Path> {
      * Diese Methode startet das Backup und kopiert
      * alle Inhalte des externen Laufwerkes auf das User Laufwerk
      */
-    public double startBackup(String drive, BackupService backupService) {
-        double lengthInPercent = 0;
+    public void startBackup(String drive, BackupService backupService) {
+        int newPercentValue = 0;
         try {
             Files.walkFileTree(Paths.get((drive)), backupService);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         currentLength = totalLength;
-        System.out.println("Total Length: " + totalLength);
-        System.out.println("Current Length: " + currentLength);
 
         for (Data data : this.dataCopyList) {
 //            copy(data.getSource(), data.getTarget());
             setCurrentLength(currentLength - data.getSource().length());
-            lengthInPercent = (double) (totalLength - currentLength) / totalLength * 100;
-            System.out.println("length in percent: " + lengthInPercent);
-            System.out.println("Current Length: " + currentLength);
+            newPercentValue = (int) Math.round((double) (totalLength - currentLength) / totalLength * 100);
+            gui.changeProgressBar(newPercentValue);
         }
 
         for (Data data : this.dataDeleteList) {
 //            deleteFile(data.getTarget().toPath());
             setCurrentLength(currentLength - data.getTarget().length());
-            lengthInPercent = (double) (totalLength - currentLength) / totalLength * 100;
-            System.out.println("length in percent: " + lengthInPercent);
-            System.out.println("Current Length: " + currentLength);
+            newPercentValue = (int) Math.round((double) (totalLength - currentLength) / totalLength * 100);
+            gui.changeProgressBar(newPercentValue);
         }
-        return lengthInPercent;
     }
 
     /**

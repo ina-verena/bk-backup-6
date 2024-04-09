@@ -136,7 +136,7 @@
         <mxCell id="QiYBrhJ7gyg8q-LHTaML-46" value="" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="1090" y="750" width="240" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="QiYBrhJ7gyg8q-LHTaML-47" value="Gui" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="QiYBrhJ7gyg8q-LHTaML-47" value="frontend.Gui" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="1100" y="730" width="220" height="20" as="geometry" />
         </mxCell>
         <mxCell id="QiYBrhJ7gyg8q-LHTaML-48" value="&lt;font style=&quot;font-size: 8px;&quot;&gt;+ renderGUI(): void&lt;br&gt;+ ???&lt;br&gt;&lt;/font&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=10;labelPosition=center;verticalLabelPosition=middle;" vertex="1" parent="1">
