@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         ConfigData configData = new ConfigData();
         FindDriveService drive = new FindDriveService();
-        BackupService _backupService = new BackupService();
+        BackupService backupService = new BackupService();
         SearchDriveService searchDriveService = new SearchDriveService(drive);
 
 //        searchDrive.start();
@@ -23,19 +23,25 @@ public class Main {
 
         //Choose one of the listed drivers
         File currentDrive = drive.chooseDrive(drive.getDriveList());
+
         //initialize the driver with a config data
         configData.initConfigData(Paths.get(currentDrive + "config"));
+
         //get path of the config file on the external driver
         Path pathOfConfigOnExternal = Paths.get(currentDrive + "config");
-        _backupService.setPathOfConfig(pathOfConfigOnExternal);
+        backupService.setPathOfConfig(pathOfConfigOnExternal);
+
         //create .Backup dir on user drive
 //        make_backup.createBackupDir();
+
 //        //create dir backup structure on user drive
 //        make_backup.createDriveDir(pathOfConfigOnExternal);
+
 //        //copies config data from external drive into backup structure on user drive
 //        make_backup.copyConfig(pathOfConfigOnExternal);
+
         //make a backup from external drive into backup structure on user drive
-        Files.walkFileTree(Paths.get(String.valueOf(currentDrive)), _backupService);
+        backupService.startBackup(String.valueOf(currentDrive), backupService);
 
     }
 }
