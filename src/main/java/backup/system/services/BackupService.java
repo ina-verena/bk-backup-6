@@ -16,6 +16,8 @@ public class BackupService implements FileVisitor<Path> {
 
     private long totalLength = 0;
 
+    private long currentLength = 0;
+
     private List<Data> dataCopyList = new ArrayList<>();
 
     private List<Data> dataDeleteList = new ArrayList<>();
@@ -26,6 +28,11 @@ public class BackupService implements FileVisitor<Path> {
 
     public void setTotalLength(long totalLength) {
         this.totalLength = totalLength;
+    }
+
+    //setter currentLength
+    public void setCurrentLength(long currentLength) {
+        this.currentLength = currentLength;
     }
 
     // TODO CHANGE C:/ ZU U:/
@@ -59,16 +66,18 @@ public class BackupService implements FileVisitor<Path> {
             //Ist die Directory im Ziel vorhanden? nein -> copyDir
             if (!Files.exists(targetFile.toPath())) {
                 addBackupList(sourceFile, targetFile, dataCopyList);
+                totalLength += sourceFile.length();
                 System.out.println("Directory has been added to list");
             }
 
             //In Quelle nein und Ziel ja? Im Ziel löschen
             if (!Files.exists(dir) && Files.exists(targetFile.toPath())) {
                 addBackupList(sourceFile, targetFile, dataDeleteList);
+                totalLength += targetFile.length();
                 System.out.println("Directory was added to delete list");
             }
         }
-        totalLength += sourceFile.length();
+
         return FileVisitResult.CONTINUE;
     }
 
@@ -104,6 +113,7 @@ public class BackupService implements FileVisitor<Path> {
             //Ist File im Ziel vorhanden? nein -> copy
             if (!Files.exists(target)) {
                 addBackupList(sourceFile, targetFile, dataCopyList);
+                totalLength += sourceFile.length();
                 System.out.println("File has been added to copy list");
             }
 
@@ -114,6 +124,7 @@ public class BackupService implements FileVisitor<Path> {
                     return FileVisitResult.CONTINUE;
                 } else {
                     addBackupList(sourceFile, targetFile, dataCopyList);
+                    totalLength += sourceFile.length();
                     System.out.println("File has been added to copy list");
                 }
             }
@@ -121,10 +132,10 @@ public class BackupService implements FileVisitor<Path> {
             //In Quelle nein und Ziel ja? Im Ziel löschen
             if (!Files.exists(file) && Files.exists(target)) {
                 addBackupList(sourceFile, targetFile, dataDeleteList);
+                totalLength += targetFile.length();
                 System.out.println("File was added to delete lisz");
             }
         }
-        totalLength += sourceFile.length();
         return FileVisitResult.CONTINUE;
     }
 
@@ -178,33 +189,31 @@ public class BackupService implements FileVisitor<Path> {
      * alle Inhalte des externen Laufwerkes auf das User Laufwerk
      */
     public double startBackup(String drive, BackupService backupService) {
-        long currentLength = totalLength;
         double lengthInPercent = 0;
-
-
         try {
             Files.walkFileTree(Paths.get((drive)), backupService);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        currentLength = totalLength;
         System.out.println("Total Length: " + totalLength);
+        System.out.println("Current Length: " + currentLength);
 
         for (Data data : this.dataCopyList) {
 //            copy(data.getSource(), data.getTarget());
-            lengthInPercent = data.getSource().length()/totalLength*100;
-            currentLength -= data.getSource().length();
+            setCurrentLength(currentLength - data.getSource().length());
+            lengthInPercent = (double) (totalLength - currentLength) / totalLength * 100;
             System.out.println("length in percent: " + lengthInPercent);
             System.out.println("Current Length: " + currentLength);
         }
 
         for (Data data : this.dataDeleteList) {
 //            deleteFile(data.getTarget().toPath());
-            lengthInPercent = data.getTarget().length()/totalLength*100;
-            currentLength -= data.getTarget().length();
+            setCurrentLength(currentLength - data.getTarget().length());
+            lengthInPercent = (double) (totalLength - currentLength) / totalLength * 100;
             System.out.println("length in percent: " + lengthInPercent);
             System.out.println("Current Length: " + currentLength);
         }
-
         return lengthInPercent;
     }
 
