@@ -1,9 +1,8 @@
-package backup.system.drive.handler;
+package backup.system.services;
 
-import backup.system.file.handler.ConfigData;
+import backup.system.model.ConfigData;
 
 import javax.swing.filechooser.FileSystemView;
-import java.awt.*;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.Scanner;
 /**
  * Diese Klasse hat alle Funktionen, die für die Laufwerkerkennung vonnöten sind
  */
-public class Find_Drive {
+public class FindDriveService {
     /**
      * Diese Methode listet alle aktuell angeschlossenen Laufwerk auf
      * und fügt den Buchstaben der Laufwerke als File in ein File Array

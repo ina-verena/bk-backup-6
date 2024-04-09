@@ -1,12 +1,12 @@
-package backup.system.drive.handler;
+package backup.system.services;
 
-import backup.system.file.handler.ConfigData;
+import backup.system.model.ConfigData;
 
-public class SearchDrive extends Thread{
-    Find_Drive find_drive;
+public class SearchDriveService extends Thread{
+    FindDriveService find_driveService;
 
-    public SearchDrive(Find_Drive find_drive){
-        this.find_drive = find_drive;
+    public SearchDriveService(FindDriveService find_driveService){
+        this.find_driveService = find_driveService;
     }
 
     /**
@@ -16,7 +16,7 @@ public class SearchDrive extends Thread{
     public void run() {
         ConfigData configData = new ConfigData();
         while (true) {
-            find_drive.visualizeDriveList(find_drive.getValidDriveList(configData));
+            find_driveService.visualizeDriveList(find_driveService.getValidDriveList(configData));
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {

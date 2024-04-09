@@ -1,11 +1,10 @@
 package backup.system;
 
-import backup.system.backup.prozess.Make_Backup;
-import backup.system.drive.handler.Find_Drive;
-import backup.system.drive.handler.SearchDrive;
-import backup.system.file.handler.ConfigData;
+import backup.system.services.BackupService;
+import backup.system.services.FindDriveService;
+import backup.system.services.SearchDriveService;
+import backup.system.model.ConfigData;
 
-import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,9 +14,9 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         ConfigData configData = new ConfigData();
-        Find_Drive drive = new Find_Drive();
-        Make_Backup make_backup = new Make_Backup();
-        SearchDrive searchDrive = new SearchDrive(drive);
+        FindDriveService drive = new FindDriveService();
+        BackupService _backupService = new BackupService();
+        SearchDriveService searchDriveService = new SearchDriveService(drive);
 
 //        searchDrive.start();
 
@@ -28,7 +27,7 @@ public class Main {
         configData.initConfigData(Paths.get(currentDrive + "config"));
         //get path of the config file on the external driver
         Path pathOfConfigOnExternal = Paths.get(currentDrive + "config");
-        make_backup.setPathOfConfig(pathOfConfigOnExternal);
+        _backupService.setPathOfConfig(pathOfConfigOnExternal);
         //create .Backup dir on user drive
 //        make_backup.createBackupDir();
 //        //create dir backup structure on user drive
@@ -36,7 +35,7 @@ public class Main {
 //        //copies config data from external drive into backup structure on user drive
 //        make_backup.copyConfig(pathOfConfigOnExternal);
         //make a backup from external drive into backup structure on user drive
-        Files.walkFileTree(Paths.get(String.valueOf(currentDrive)), make_backup);
+        Files.walkFileTree(Paths.get(String.valueOf(currentDrive)), _backupService);
 
     }
 }

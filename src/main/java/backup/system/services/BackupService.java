@@ -1,7 +1,6 @@
-package backup.system.backup.prozess;
+package backup.system.services;
 
-import backup.system.drive.handler.Find_Drive;
-import backup.system.uuid.handler.Get_UUID;
+import backup.system.services.GetUUIDService;
 
 import java.io.*;
 import java.nio.file.*;
@@ -9,9 +8,8 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
-public class Make_Backup implements FileVisitor<Path> {
+public class BackupService implements FileVisitor<Path> {
 
     private Path pathOfConfig;
 
@@ -39,7 +37,7 @@ public class Make_Backup implements FileVisitor<Path> {
     @Override
     public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
         String sourcePath = dir.toString().substring(2);
-        Get_UUID get_uuid = new Get_UUID();
+        GetUUIDService get_uuid = new GetUUIDService();
         String uuid = get_uuid.getUUIDAsString(pathOfConfig);
 
         File sourceFile = new File(dir.toUri());
@@ -90,7 +88,7 @@ public class Make_Backup implements FileVisitor<Path> {
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
         String sourcePath = file.toString().substring(2);
         File sourceFile = new File(file.toUri());
-        Get_UUID get_uuid = new Get_UUID();
+        GetUUIDService get_uuid = new GetUUIDService();
         String uuid = get_uuid.getUUIDAsString(pathOfConfig);
 
         if (!sourceFile.isHidden() && Files.isReadable(file)) {
@@ -224,7 +222,7 @@ public class Make_Backup implements FileVisitor<Path> {
      */
     //TODO: Wechsel Buchstabe C:/ zu U:/
     public void createDriveDir(Path path) {
-        Get_UUID get_uuid = new Get_UUID();
+        GetUUIDService get_uuid = new GetUUIDService();
         String uuid = get_uuid.getUUIDAsString(path);
         try {
             Files.createDirectories(Paths.get("U:/.Backup/" + uuid));
@@ -236,7 +234,7 @@ public class Make_Backup implements FileVisitor<Path> {
 
     //TODO CHANGE C:/ TO U:/
     public void copyConfig(Path path) {
-        Get_UUID get_uuid = new Get_UUID();
+        GetUUIDService get_uuid = new GetUUIDService();
         String uuid = get_uuid.getUUIDAsString(path);
         try {
             Files.copy(path, Paths.get("U:/.Backup/" + uuid + "/config"));

@@ -1,4 +1,4 @@
-package backup.system.file.handler;
+package backup.system.model;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
@@ -75,6 +75,7 @@ public class ConfigData {
 
 
     /**
+     * 
      * Diese Methode läd eine Config Datei und konvertiert diese in ein ConfigData Objekt
      * @param path der Config Datei
      * @return ConfigData Objekt

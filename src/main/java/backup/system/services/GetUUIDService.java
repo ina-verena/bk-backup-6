@@ -1,12 +1,10 @@
-package backup.system.uuid.handler;
+package backup.system.services;
 
-import backup.system.file.handler.ConfigData;
+import backup.system.model.ConfigData;
 
-import java.io.File;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
-public class Get_UUID {
+public class GetUUIDService {
 
     /**
      * Diese Methode vergleicht die UUID in der Local gespeicherten Config Datei

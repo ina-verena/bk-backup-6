@@ -1,5 +1,5 @@
-import backup.system.drive.handler.Find_Drive;
-import backup.system.file.handler.ConfigData;
+import backup.system.services.FindDriveService;
+import backup.system.model.ConfigData;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -21,10 +21,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import java.awt.Dimension;
-import javax.swing.JTextPane;
-import javax.swing.JList;
-import javax.swing.JRadioButton;
 import javax.swing.JProgressBar;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -33,7 +29,7 @@ public class Gui extends JFrame {
 
 	private JPanel contentPane;
 
-	Find_Drive find_drive = new Find_Drive();
+	FindDriveService find_driveService = new FindDriveService();
 	ConfigData configData = new ConfigData();
 
 	/**
@@ -220,7 +216,7 @@ public class Gui extends JFrame {
      		drivers.add(listcontainer);
      		listcontainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
      		   		
-    		for (String drive: find_drive.getDriveListAsString()) {
+    		for (String drive: find_driveService.getDriveListAsString()) {
     			
     			JButton entry = new JButton(drive + "                           ");
     			entry.setBounds(10, 5, 89, 22);
