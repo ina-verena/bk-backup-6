@@ -33,6 +33,7 @@ import javax.swing.ImageIcon;
 public class Gui extends JFrame {
 
 	private JPanel contentPane;
+	LogPanel logPanel = LogPanel.getLogPanel();
 
 	FindDriveService find_driveService = new FindDriveService();
 	ConfigData configData = new ConfigData();
@@ -88,6 +89,7 @@ public class Gui extends JFrame {
 		btnNewButton.addActionListener(e -> {
 			CardLayout cardLayout = (CardLayout) main.getLayout();
 			cardLayout.show(main, "name_drivers");
+			logPanel.addLogEntry(LogPanel.MESSAGE_INFO, "Backups wurde eingerichtet");
 		});
 		
 		start.setLayout(null);
@@ -122,6 +124,7 @@ public class Gui extends JFrame {
  	                }
 
  	        }).start();
+			 logPanel.addLogEntry(LogPanel.MESSAGE_INFO, "Backups wurde gestartet");
 		});
 		start.add(btnBackupStarten);
 		
@@ -131,6 +134,7 @@ public class Gui extends JFrame {
 		btnBackupWiederherstellen.addActionListener(e -> {
 			CardLayout cardLayout = (CardLayout) main.getLayout();
 			cardLayout.show(main, "name_drivers");
+			logPanel.addLogEntry(LogPanel.MESSAGE_WARNING, "Es gibt noch keine Funktion um Backups wiederherzustellen");
 		});
 		start.add(btnBackupWiederherstellen);
 		
@@ -140,6 +144,8 @@ public class Gui extends JFrame {
 		btnBackupsAuflisten.addActionListener(e -> {
 			CardLayout cardLayout = (CardLayout) main.getLayout();
 			cardLayout.show(main, "name_backups");
+			logPanel.addLogEntry(LogPanel.MESSAGE_INFO, "Backups sollen aufgelistet werden");
+
 		});
 		start.add(btnBackupsAuflisten);
 		
@@ -158,6 +164,7 @@ public class Gui extends JFrame {
 		btnInfoHilfe.addActionListener(e -> {
 			CardLayout cardLayout = (CardLayout) main.getLayout();
 			cardLayout.show(main, "name_help");
+			logPanel.addLogEntry(LogPanel.MESSAGE_WARNING, "Hilfe wurde aufgerufen, es gibt aber noch keine");
 		});
 		start.add(btnInfoHilfe);
 		
@@ -321,7 +328,7 @@ public class Gui extends JFrame {
         finish.add(lblBackupAbgeschlossen);
         
 // Panel für die Log Meldungen 
-	LogPanel logPanel = LogPanel.getLogPanel();
+	
 	logPanel.setBackground(SystemColor.activeCaption);
 	main.add(logPanel, "name_log");
 
