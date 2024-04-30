@@ -2,6 +2,7 @@ package frontend;
 
 import backup.system.services.BackupService;
 import backup.system.services.FindDriveService;
+import logpanel.LogPanel;
 import backup.system.model.ConfigData;
 
 import java.awt.BorderLayout;
@@ -320,15 +321,12 @@ public class Gui extends JFrame {
         finish.add(lblBackupAbgeschlossen);
         
 // Panel für die Log Meldungen 
-        JPanel log = new JPanel();
-        log.setBackground(SystemColor.activeCaption);
-        main.add(log, "name_log");
-        
-        JLabel lblLogReport = new JLabel("Log / Report");
-        lblLogReport.setForeground(Color.WHITE);
-        lblLogReport.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        log.add(lblLogReport);
-        
+	LogPanel logPanel = LogPanel.getLogPanel();
+	logPanel.setBackground(SystemColor.activeCaption);
+	main.add(logPanel, "name_log");
+
+	logPanel.addLogEntry(LogPanel.MESSAGE_INFO, "Das LogPanel wurde angelegt");
+     
 // Panel für die Anleitung des Programmes        
         JPanel help = new JPanel();
         help.setBackground(SystemColor.activeCaption);
