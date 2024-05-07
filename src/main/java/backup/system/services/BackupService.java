@@ -90,7 +90,7 @@ public class BackupService implements FileVisitor<Path> {
         File sourceFile = new File(dir.toUri());
 
         if (!sourceFile.isHidden() && Files.isReadable(dir)) {
-            File targetFile = new File("U:/.Backup/" + uuid + "/Backup" + sourcePath);
+            File targetFile = new File("U6 - :/.Backup/" + uuid + "/Backup" + sourcePath);
 
             //Ist die Directory im Ziel vorhanden? nein -> copyDir
             if (!Files.exists(targetFile.toPath())) {
