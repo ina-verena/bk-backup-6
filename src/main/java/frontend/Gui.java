@@ -85,6 +85,7 @@ public class Gui extends JFrame {
 		start.setBackground(SystemColor.activeCaption);
 		main.add(start, "name_start");
 		
+// Backup einrichten ----------------------------------------------------------------------------		
 		JButton btnNewButton = new JButton("Backup einrichten");
 		btnNewButton.addActionListener(e -> {
 			CardLayout cardLayout = (CardLayout) main.getLayout();
@@ -101,6 +102,7 @@ public class Gui extends JFrame {
         progressBar.setBounds(24, 275, 279, 28);
         progressBar.setStringPainted(true); // Aktiviere die Textanzeige
 
+// Backup starten ----------------------------------------------------------------------------		
 		JButton btnBackupStarten = new JButton("Backup starten");
 		btnBackupStarten.setBounds(67, 89, 207, 29);
 		btnBackupStarten.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -128,6 +130,7 @@ public class Gui extends JFrame {
 		});
 		start.add(btnBackupStarten);
 		
+// Backup wiederherstellen ----------------------------------------------------------------------------		
 		JButton btnBackupWiederherstellen = new JButton("Backup wiederherstellen");
 		btnBackupWiederherstellen.setBounds(67, 207, 207, 29);
 		btnBackupWiederherstellen.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -138,6 +141,7 @@ public class Gui extends JFrame {
 		});
 		start.add(btnBackupWiederherstellen);
 		
+// Backup auflisten ----------------------------------------------------------------------------		
 		JButton btnBackupsAuflisten = new JButton("Backups auflisten");
 		btnBackupsAuflisten.setBounds(67, 148, 207, 29);
 		btnBackupsAuflisten.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -149,6 +153,7 @@ public class Gui extends JFrame {
 		});
 		start.add(btnBackupsAuflisten);
 		
+// Log / Status ----------------------------------------------------------------------------		
 		JButton btnLogStatus = new JButton("Log / Status");
 		btnLogStatus.setBounds(67, 266, 207, 29);
 		btnLogStatus.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -168,6 +173,7 @@ public class Gui extends JFrame {
 		});
 		start.add(btnInfoHilfe);
 		
+// Headline ----------------------------------------------------------------------------		
 		JLabel headerText = new JLabel("BK-Backup");
 		headerText.setAlignmentY(Component.TOP_ALIGNMENT);
 		headerText.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -183,7 +189,6 @@ public class Gui extends JFrame {
 		footer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 // Footer ------------------------------------------------------------------------------
-		
 		JButton btnStartmen = new JButton("Startmenü");
 		btnStartmen.addActionListener(e -> {
 			CardLayout cardLayout = (CardLayout) main.getLayout();
