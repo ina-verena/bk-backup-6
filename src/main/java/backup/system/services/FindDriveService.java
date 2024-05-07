@@ -37,11 +37,11 @@ public class FindDriveService {
             stringDrives.add(drive.toString());
         }
 
-//        for (int i = 0; i < stringDrives.size(); i++) {
-//            if (stringDrives.get(i).equals("C:\\") || stringDrives.get(i).equals("U:\\")) {
-//                 stringDrives.remove(i);
-//            }
-//        }
+        for (int i = 0; i < stringDrives.size(); i++) {
+            if (stringDrives.get(i).equals("C:\\") || stringDrives.get(i).equals("U:\\")) {
+                 stringDrives.remove(i);
+            }
+        }
         return stringDrives;
     }
 
