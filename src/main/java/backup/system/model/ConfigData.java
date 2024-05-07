@@ -108,8 +108,9 @@ public class ConfigData {
             }
             return true;
         }catch (Exception e){
-            throw e;
+            e.printStackTrace();
         }
+        return false;
     }
 
     /**

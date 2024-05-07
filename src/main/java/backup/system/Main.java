@@ -33,16 +33,16 @@ public class Main {
         backupService.setPathOfConfig(pathOfConfigOnExternal);
 
         //create .Backup dir on user drive
-//        make_backup.createBackupDir();
+        backupService.createBackupDir();
 
 //        //create dir backup structure on user drive
-//        make_backup.createDriveDir(pathOfConfigOnExternal);
+        backupService.createDriveDir(pathOfConfigOnExternal);
 
 //        //copies config data from external drive into backup structure on user drive
-//        make_backup.copyConfig(pathOfConfigOnExternal);
+        backupService.copyConfig(pathOfConfigOnExternal);
 
         //make a backup from external drive into backup structure on user drive
-        backupService.startBackup(String.valueOf(currentDrive), backupService);
+//        backupService.startBackup(String.valueOf(currentDrive), backupService);
 
     }
 }
