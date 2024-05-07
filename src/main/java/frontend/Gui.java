@@ -357,7 +357,13 @@ public class Gui extends JFrame {
 		System.out.println("PROGRESS " + value);
 	}
 
-	private JLabel setAttributes (JLabel label, int fontSize, ){
-		return label
+	private JLabel setAttributes (JLabel element, int fontSize, int x, int y, int width, int height){
+		element.setForeground(Color.WHITE);
+		element.setFont(new Font("Tahoma", Font.PLAIN, fontSize));
+		
+		if(width >0 && height >0){
+			element.setBounds(x, y, width, height);
+		}
+		return element;
 	}
 }
