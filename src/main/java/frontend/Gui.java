@@ -34,17 +34,10 @@ public class Gui extends JFrame {
 
 	private JPanel contentPane;
 	LogPanel logPanel = LogPanel.getLogPanel();
-
 	FindDriveService find_driveService = new FindDriveService();
 	ConfigData configData = new ConfigData();
-
 	BackupService backupService = new BackupService(this);
 
-
-
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -58,12 +51,12 @@ public class Gui extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public Gui() {
-// Aufbau der Struktur	---------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------
+// -- INITIALISIEREN
+// ----------------------------------------------------------------------------------------------		
 		
+// Aufbau der Struktur	---------------------------------------------------------------------------
 		setBackground(SystemColor.activeCaption);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 350, 500);
@@ -78,18 +71,59 @@ public class Gui extends JFrame {
 		main.setBackground(SystemColor.inactiveCaption);
 		contentPane.add(main, BorderLayout.CENTER);
 
+// Headline ----------------------------------------------------------------------------		
+		JLabel headerText = new JLabel("BK-Backup");
+		headerText.setAlignmentY(Component.TOP_ALIGNMENT);
+		headerText.setHorizontalTextPosition(SwingConstants.CENTER);
+		headerText.setHorizontalAlignment(SwingConstants.CENTER);
+		headerText.setForeground(Color.WHITE);
+		headerText.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		headerText.setAlignmentX(0.5f);
+		contentPane.add(headerText, BorderLayout.NORTH);
+		
+		JPanel footer = new JPanel();
+		footer.setBackground(SystemColor.activeCaption);
+		contentPane.add(footer, BorderLayout.SOUTH);
+		footer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-	
-// Panel für das Startmenü mit den vielen Buttons
+// Footer ------------------------------------------------------------------------------
+		JButton btnStartmen = new JButton("Startmenü");
+		btnStartmen.addActionListener(e -> {
+			CardLayout mainCardLayout = (CardLayout) main.getLayout();
+			mainCardLayout.show(main, "name_start");
+		});
+		
+		btnStartmen.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		footer.add(btnStartmen);
+		
+		JButton btnBeenden = new JButton("Beenden");
+		footer.add(btnBeenden);
+		btnBeenden.addActionListener(e -> {
+			System.out.println(e.getActionCommand());
+			System.exit(0);
+		});
+		
+		btnBeenden.setFont(new Font("Tahoma", Font.PLAIN, 16));
+
+// Panel für das Startmenü mit der Navigation
 		JPanel start = new JPanel();
 		start.setBackground(SystemColor.activeCaption);
-		main.add(start, "name_start");
-		
+		main.add(start, "name_start");		
+
+// Intiales Panel/Card mit dem das Programm startet		
+		CardLayout startCardLayout = (CardLayout) main.getLayout();
+        startCardLayout.show(main, "name_start");
+
+	
+// ----------------------------------------------------------------------------------------------
+// -- NAVIGATION
+// ----------------------------------------------------------------------------------------------
+
 // Backup einrichten ----------------------------------------------------------------------------		
 		JButton btnNewButton = new JButton("Backup einrichten");
 		btnNewButton.addActionListener(e -> {
-			CardLayout cardLayout = (CardLayout) main.getLayout();
-			cardLayout.show(main, "name_drivers");
+			CardLayout mainCardLayout = (CardLayout) main.getLayout();
+			mainCardLayout.show(main, "name_drivers");
 			logPanel.addLogEntry(LogPanel.MESSAGE_INFO, "Backups wurde eingerichtet");
 		});
 		
@@ -107,8 +141,8 @@ public class Gui extends JFrame {
 		btnBackupStarten.setBounds(67, 89, 207, 29);
 		btnBackupStarten.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnBackupStarten.addActionListener(e -> {
-			CardLayout cardLayout = (CardLayout) main.getLayout();
-			cardLayout.show(main, "name_running");
+			CardLayout mainCardLayout = (CardLayout) main.getLayout();
+			mainCardLayout.show(main, "name_running");
 			File currentDrive = find_driveService.chooseDrive(find_driveService.getDriveList());
 			Path pathOfConfigOnExternal = Paths.get(currentDrive + "config");
 			backupService.setPathOfConfig(pathOfConfigOnExternal);
@@ -135,8 +169,8 @@ public class Gui extends JFrame {
 		btnBackupWiederherstellen.setBounds(67, 207, 207, 29);
 		btnBackupWiederherstellen.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnBackupWiederherstellen.addActionListener(e -> {
-			CardLayout cardLayout = (CardLayout) main.getLayout();
-			cardLayout.show(main, "name_drivers");
+			CardLayout mainCardLayout = (CardLayout) main.getLayout();
+			mainCardLayout.show(main, "name_drivers");
 			logPanel.addLogEntry(LogPanel.MESSAGE_WARNING, "Es gibt noch keine Funktion um Backups wiederherzustellen");
 		});
 		start.add(btnBackupWiederherstellen);
@@ -146,8 +180,8 @@ public class Gui extends JFrame {
 		btnBackupsAuflisten.setBounds(67, 148, 207, 29);
 		btnBackupsAuflisten.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnBackupsAuflisten.addActionListener(e -> {
-			CardLayout cardLayout = (CardLayout) main.getLayout();
-			cardLayout.show(main, "name_backups");
+			CardLayout mainCardLayout = (CardLayout) main.getLayout();
+			mainCardLayout.show(main, "name_backups");
 			logPanel.addLogEntry(LogPanel.MESSAGE_INFO, "Backups sollen aufgelistet werden");
 
 		});
@@ -158,8 +192,8 @@ public class Gui extends JFrame {
 		btnLogStatus.setBounds(67, 266, 207, 29);
 		btnLogStatus.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnLogStatus.addActionListener(e -> {
-			CardLayout cardLayout = (CardLayout) main.getLayout();
-			cardLayout.show(main, "name_log");
+			CardLayout mainCardLayout = (CardLayout) main.getLayout();
+			mainCardLayout.show(main, "name_log");
 		});
 		start.add(btnLogStatus);
 		
@@ -167,51 +201,16 @@ public class Gui extends JFrame {
 		btnInfoHilfe.setBounds(67, 325, 207, 29);
 		btnInfoHilfe.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnInfoHilfe.addActionListener(e -> {
-			CardLayout cardLayout = (CardLayout) main.getLayout();
-			cardLayout.show(main, "name_help");
+			CardLayout mainCardLayout = (CardLayout) main.getLayout();
+			mainCardLayout.show(main, "name_help");
 			logPanel.addLogEntry(LogPanel.MESSAGE_WARNING, "Hilfe wurde aufgerufen, es gibt aber noch keine");
 		});
 		start.add(btnInfoHilfe);
 		
-// Headline ----------------------------------------------------------------------------		
-		JLabel headerText = new JLabel("BK-Backup");
-		headerText.setAlignmentY(Component.TOP_ALIGNMENT);
-		headerText.setHorizontalTextPosition(SwingConstants.CENTER);
-		headerText.setHorizontalAlignment(SwingConstants.CENTER);
-		headerText.setForeground(Color.WHITE);
-		headerText.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		headerText.setAlignmentX(0.5f);
-		contentPane.add(headerText, BorderLayout.NORTH);
-		
-		JPanel footer = new JPanel();
-		footer.setBackground(SystemColor.activeCaption);
-		contentPane.add(footer, BorderLayout.SOUTH);
-		footer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-// Footer ------------------------------------------------------------------------------
-		JButton btnStartmen = new JButton("Startmenü");
-		btnStartmen.addActionListener(e -> {
-			CardLayout cardLayout = (CardLayout) main.getLayout();
-			cardLayout.show(main, "name_start");
-		});
-		
-		btnStartmen.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		footer.add(btnStartmen);
-		
-		JButton btnBeenden = new JButton("Beenden");
-		footer.add(btnBeenden);
-		btnBeenden.addActionListener(e -> {
-			System.out.println(e.getActionCommand());
-			System.exit(0);
-		});
-		
-		btnBeenden.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		
-// Intiales Panel/Card mit dem das Programm startet		
-		
-		CardLayout cardLayout = (CardLayout) main.getLayout();
-        cardLayout.show(main, "name_start");
-        
+// ----------------------------------------------------------------------------------------------
+// -- PANEL
+// ----------------------------------------------------------------------------------------------	
+
 // Panel welches die Backups auflistet        
         JPanel backups = new JPanel();
         backups.setBackground(SystemColor.activeCaption);
@@ -247,8 +246,8 @@ public class Gui extends JFrame {
          		entry.setFont(new Font("Tahoma", Font.PLAIN, 18));
          		entry.addActionListener(n -> {
         			configData.initConfigData(Paths.get(drive + "config"));
-
-        			cardLayout.show(main, "name_initial");
+					CardLayout mainCardLayout = (CardLayout) main.getLayout();
+					mainCardLayout.show(main, "name_initial");
         		});
     			listcontainer.add(entry);
     		}
@@ -317,8 +316,6 @@ public class Gui extends JFrame {
 			e1.printStackTrace();
 		}
         
-        
-        
 // Panel für die Bestätigung das das Backup erfolgreich war        
         JPanel finish = new JPanel();
         finish.setBackground(SystemColor.activeCaption);
@@ -349,6 +346,10 @@ public class Gui extends JFrame {
         lblAnleitung.setFont(new Font("Tahoma", Font.PLAIN, 18));
         help.add(lblAnleitung);
 	}
+
+// ----------------------------------------------------------------------------------------------
+// -- HILFSFUNKTIONEN
+// ----------------------------------------------------------------------------------------------
 
 	public void changeProgressBar(int value) {
 		backupService.setLengthInPercent(value);
