@@ -246,6 +246,7 @@ public class Gui extends JFrame {
          		entry.setFont(new Font("Tahoma", Font.PLAIN, 18));
          		entry.addActionListener(n -> {
         			configData.initConfigData(Paths.get(drive + "config"));
+					backupService.createDriveDir(Paths.get(drive));
 					CardLayout mainCardLayout = (CardLayout) main.getLayout();
 					mainCardLayout.show(main, "name_initial");
         		});
@@ -354,5 +355,9 @@ public class Gui extends JFrame {
 	public void changeProgressBar(int value) {
 		backupService.setLengthInPercent(value);
 		System.out.println("PROGRESS " + value);
+	}
+
+	private JLabel setAttributes (JLabel label, int fontSize, ){
+		return label
 	}
 }
